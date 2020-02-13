@@ -8,5 +8,10 @@ public interface RecommendView {
 
     void cpvSuccess(InputStream inputStream);
 
+    void retrofitFailure(String message);
+
+    void postWordPositiveSuccess();
+
+    void postWordNegativeSuccess();
 
 }

@@ -49,7 +49,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
     private static final String TAG = RecommendActivity.class.getSimpleName();
     private static final String CLIENT_ID = "g0fd605ajk"; // "내 애플리케이션"에서 Client ID를 확인해서 이곳에 적어주세요.
-//    private RecommendActivity.RecognitionHandler handler;
+    private RecommendActivity.RecognitionHandler handler;
     private NaverRecognizer naverRecognizer;
     private TextView txtResult;
     private Button btnStart;
@@ -60,73 +60,80 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
     private boolean isCPVEnd = false;
 
-//    private void handleMessage(Message msg) {
-//        switch (msg.what) {
-//            case R.id.clientReady: // 음성인식 준비 가능
+    private void handleMessage(Message msg) {
+        switch (msg.what) {
+            case R.id.clientReady: // 음성인식 준비 가능
 //                txtResult.setText("Connected");
-//                writer = new AudioWriterPCM(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
-//                writer.open("Test");
-//                break;
-//            case R.id.audioRecording:
-//                writer.write((short[]) msg.obj);
-//                break;
-//            case R.id.partialResult:
-//                mResult = (String) (msg.obj);
+                writer = new AudioWriterPCM(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
+                writer.open("Test");
+                break;
+            case R.id.audioRecording:
+                writer.write((short[]) msg.obj);
+                break;
+            case R.id.partialResult:
+                mResult = (String) (msg.obj);
 //                txtResult.setText(mResult);
-//                Log.d("메세지", mResult);
-//                break;
-//            case R.id.finalResult: // 최종 인식 결과
-//                SpeechRecognitionResult speechRecognitionResult = (SpeechRecognitionResult) msg.obj;
-//                final List<String> results = speechRecognitionResult.getResults();
-//                StringBuilder strBuf = new StringBuilder();
-//                final ArrayList<String> similarWord = new ArrayList<>();
-//                for(String result : results) {
-//                    strBuf.append(result);
-//                    strBuf.append("\n");
-//                    similarWord.add(result);
-//                }
-//                mResult = strBuf.toString();
-//                showCustomToast(mResult);
+                Log.d("메세지", mResult);
+                break;
+            case R.id.finalResult: // 최종 인식 결과
+                SpeechRecognitionResult speechRecognitionResult = (SpeechRecognitionResult) msg.obj;
+                final List<String> results = speechRecognitionResult.getResults();
+                StringBuilder strBuf = new StringBuilder();
+                final ArrayList<String> similarWord = new ArrayList<>();
+                for(String result : results) {
+                    strBuf.append(result);
+                    strBuf.append("\n");
+                    similarWord.add(result);
+                }
+                mResult = strBuf.toString();
+                showCustomToast(mResult);
 //                txtResult.setText(mResult);
-//                postCPV(mResult);
-////                postTest(edtTest.getText().toString(), similarWord);
-//                System.out.println("결과: " + results.get(0));
-////                cpvTest(results.get(0));
-////                new Thread(){
-////                    @Override
-////                    public void run() {
-////                        testApi(results.get(0));
-////                    }
-////                }.start();
-//                break;
-//            case R.id.recognitionError:
-//                if (writer != null) {
-//                    writer.close();
-//                }
-//                mResult = "Error code : " + msg.obj.toString();
+                postCPV(mResult);
+//                postTest(edtTest.getText().toString(), similarWord);
+                System.out.println("결과: " + results.get(0));
+                postWord(results.get(0));
+//                cpvTest(results.get(0));
+//                new Thread(){
+//                    @Override
+//                    public void run() {
+//                        testApi(results.get(0));
+//                    }
+//                }.start();
+                break;
+            case R.id.recognitionError:
+                if (writer != null) {
+                    writer.close();
+                }
+                mResult = "Error code : " + msg.obj.toString();
 //                txtResult.setText(mResult);
-//                break;
-//            case R.id.clientInactive:
-//                if (writer != null) {
-//                    writer.close();
-//                }
-//                break;
-//        }
-//    }
-//
-//    static class RecognitionHandler extends Handler {
-//        private final WeakReference<RecommendActivity> mActivity;
-//        RecognitionHandler(RecommendActivity activity) {
-//            mActivity = new WeakReference<RecommendActivity>(activity);
-//        }
-//        @Override
-//        public void handleMessage(Message msg) {
-//            RecommendActivity activity = mActivity.get();
-//            if (activity != null) {
-//                activity.handleMessage(msg);
-//            }
-//        }
-//    }
+                Glide.with(mContext).load(R.drawable.ic_speak)
+                        .into(mImageViewRecording);
+                isRecordingMode = false;
+                break;
+            case R.id.clientInactive:
+                if (writer != null) {
+                    writer.close();
+                }
+                Glide.with(mContext).load(R.drawable.ic_speak)
+                        .into(mImageViewRecording);
+                isRecordingMode = false;
+                break;
+        }
+    }
+
+    static class RecognitionHandler extends Handler {
+        private final WeakReference<RecommendActivity> mActivity;
+        RecognitionHandler(RecommendActivity activity) {
+            mActivity = new WeakReference<RecommendActivity>(activity);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            RecommendActivity activity = mActivity.get();
+            if (activity != null) {
+                activity.handleMessage(msg);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,23 +143,23 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         mContext = this;
         permissionCheck();
         init();
-//        handler = new RecognitionHandler(this);
-//        naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
-        final Handler handler = new Handler(){
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
-                    Log.d("로그", "루프2");
-                    mResult = "";
-                    txtResult.setText("Connecting...");
-                    naverRecognizer.recognize();
-                }
+        handler = new RecognitionHandler(this);
+        naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
+//        final Handler handler = new Handler(){
+//            @Override
+//            public void handleMessage(@NonNull Message msg) {
+//                if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
+//                    Log.d("로그", "루프2");
+//                    mResult = "";
+//                    txtResult.setText("Connecting...");
+//                    naverRecognizer.recognize();
+//                }
 //                else {
 //                    Log.d(TAG, "stop and wait Final Result");
 //                    naverRecognizer.getSpeechRecognizer().stop();
 //                }
-            }
-        };
+//            }
+//        };
 //        new Thread(){
 //            @Override
 //            public void run() {
@@ -176,6 +183,12 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         }
     }
 
+    void postWord(String word){
+        showProgressDialog();
+        final RecommendService recommendService = new RecommendService(this);
+        recommendService.postWord(word);
+    }
+
 
     void init(){
 //        mButtonYes = findViewById(R.id.recommend_btn_yes);
@@ -195,7 +208,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     protected void onResume() {
         super.onResume();
-//        postCPV("메뉴 추천을 받으시겠습니까?");
+        postCPV("메뉴 추천을 받으시겠습니까?");
         mResult = "";
 //        txtResult.setText("");
     }
@@ -203,7 +216,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     protected void onStart() {
         super.onStart();
-//        naverRecognizer.getSpeechRecognizer().initialize();
+        naverRecognizer.getSpeechRecognizer().initialize();
     }
 
 
@@ -250,13 +263,42 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 Log.d("로그", "루프");
             }
             inputStream.close();
-            isCPVEnd = true;
+//            isCPVEnd = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void retrofitFailure(String message) {
+        hideProgressDialog();
+        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+    }
 
+    @Override
+    public void postWordPositiveSuccess() {
+        hideProgressDialog();
+        Intent intent = new Intent(RecommendActivity.this, RecommendYesActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void postWordNegativeSuccess() {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(mediaPlayer!=null){
+            try{
+                mediaPlayer.release();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     void killMediaPlayer(){
         if(mediaPlayer!=null){
@@ -271,9 +313,9 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     public void onStop() {
         super.onStop();
-//        if (naverRecognizer.getSpeechRecognizer().isRunning()){
-//            naverRecognizer.getSpeechRecognizer().stop();
-//        }
+        if (naverRecognizer.getSpeechRecognizer().isRunning()){
+            naverRecognizer.getSpeechRecognizer().stop();
+        }
     }
 
     @Override
@@ -290,9 +332,9 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 if(isRecordingMode){
                     //녹음끄기
 //                    showCustomToast("dd");
-                    Glide.with(mContext).load(R.raw.gif_recoding)
+                    Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
-                    isRecordingMode = true;
+                    isRecordingMode = false;
                 }
                 else{
                     //녹음켜기
@@ -301,6 +343,16 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                             .load(R.raw.gif_recoding)
                             .into(mImageViewRecording);
                     isRecordingMode = true;
+                    if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                        Log.d("로그", "루프2");
+                        mResult = "";
+//                        txtResult.setText("Connecting...");
+                        naverRecognizer.recognize();
+                    }
+                    else {
+                        Log.d(TAG, "stop and wait Final Result");
+                        naverRecognizer.getSpeechRecognizer().stop();
+                    }
 
                 }
                 break;
