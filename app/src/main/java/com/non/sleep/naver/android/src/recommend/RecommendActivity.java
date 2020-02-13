@@ -106,9 +106,6 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 if (writer != null) {
                     writer.close();
                 }
-                if (naverRecognizer.getSpeechRecognizer().isRunning()){
-                    naverRecognizer.getSpeechRecognizer().stop();
-                }
                 break;
         }
     }
