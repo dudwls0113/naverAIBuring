@@ -46,6 +46,12 @@
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+
         </activity>
 
         <provider
@@ -81,6 +87,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+<<<<<<< HEAD
+=======
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+
+>>>>>>> e24c5078efcffb2c60b268194f3f8851147a1aae
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
