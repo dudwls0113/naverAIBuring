@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.non.sleep.naver.android.R;
 
@@ -116,6 +117,8 @@ public class TestActivity extends AppCompatActivity {
                 System.out.println("리스폰스: " + response.toString());
                 JSONObject jsonObject = new JSONObject(response.toString());
                 JSONArray jsonArray = jsonObject.getJSONArray("faces");
+                String a= "성별: " + jsonArray.getJSONObject(0).getJSONObject("gender").getString("value");
+                String b= "연령대: " + jsonArray.getJSONObject(0).getJSONObject("age").getString("value");
                 System.out.println("성별: " + jsonArray.getJSONObject(0).getJSONObject("gender").getString("value"));
                 System.out.println("연령대: " + jsonArray.getJSONObject(0).getJSONObject("age").getString("value"));
                 String age = jsonArray.getJSONObject(0).getJSONObject("age").getString("value");
@@ -124,6 +127,8 @@ public class TestActivity extends AppCompatActivity {
                 ageInt = ageInt-ageInt%10;
                 System.out.println("나이 인트값: " + ageInt);
                 System.out.println("기분: " + jsonArray.getJSONObject(0).getJSONObject("emotion").getString("value"));
+
+                Toast.makeText(this, a+"\n"+b , Toast.LENGTH_SHORT).show();
                 // 서버로 성별, 연령대, 기분을 보내주면 리스폰스로 추천메뉴를 받고
             } else {
                 System.out.println("error !!!");
