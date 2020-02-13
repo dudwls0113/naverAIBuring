@@ -17,8 +17,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.naver.speech.clientapi.SpeechRecognitionResult;
 import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.AudioWriterPCM;
@@ -53,6 +55,8 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     private Button btnStart;
     private String mResult;
     private AudioWriterPCM writer;
+    private ImageView mImageViewRecording;
+    boolean isRecordingMode = false;
 
     private boolean isCPVEnd = false;
 
@@ -128,6 +132,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
+        mImageViewRecording = findViewById(R.id.activity_main_iv_recording);
         mContext = this;
         permissionCheck();
         init();
@@ -275,5 +280,30 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     protected void onDestroy() {
         super.onDestroy();
         killMediaPlayer();
+    }
+
+    public void customOnClick(final View view) {
+        switch (view.getId()) {
+            case R.id.activity_main_iv_recording:
+                showCustomToast("dd");
+
+                if(isRecordingMode){
+                    //녹음끄기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).load(R.raw.gif_recoding)
+                            .into(mImageViewRecording);
+                    isRecordingMode = true;
+                }
+                else{
+                    //녹음켜기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).asGif()
+                            .load(R.raw.gif_recoding)
+                            .into(mImageViewRecording);
+                    isRecordingMode = true;
+
+                }
+                break;
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.annotation.WorkerThread;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.naver.speech.clientapi.SpeechConfig;
 import com.naver.speech.clientapi.SpeechRecognitionException;
 import com.naver.speech.clientapi.SpeechRecognitionListener;
@@ -64,6 +66,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     private Button btnStart;
     private String mResult;
     private AudioWriterPCM writer;
+
 
 
     private void handleMessage(Message msg) {
@@ -130,7 +133,6 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         permissionCheck();
 
 //        cpvTest("안녕하세요");
-
         edtTest = findViewById(R.id.edt_test);
         txtResult = (TextView) findViewById(R.id.txt_result);
         btnStart = (Button) findViewById(R.id.btn_start);
@@ -245,6 +247,8 @@ public class MainActivity extends BaseActivity implements MainActivityView {
             e.printStackTrace();
         }
     }
+
+
 
     void cpvTest(final String input){
         showProgressDialog();
