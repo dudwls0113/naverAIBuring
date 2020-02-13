@@ -8,4 +8,5 @@ public interface RecommendView {
 
     void cpvSuccess(InputStream inputStream);
 
+
 }

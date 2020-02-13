@@ -1,8 +1,10 @@
 package com.non.sleep.naver.android.src.facedetection;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.facedetection.cam.FaceDetectionCamera;
@@ -47,10 +52,21 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
         // Go get the front facing camera of the device
         // best practice is to do this asynchronously
 
+        permissionCheck();
+
         context = this;
         layout = (FrameLayout) findViewById(R.id.helloWorldCameraPreview);
         FrontCameraRetriever.retrieveFor(this);
         count=0;
+    }
+
+    public void permissionCheck(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
+        }
     }
 
     @Override

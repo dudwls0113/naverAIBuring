@@ -1,6 +1,11 @@
 package com.non.sleep.naver.android.src.recommend;
 
+import com.non.sleep.naver.android.src.recommend.interfaces.RecommendRetrofitInterface;
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendView;
+import com.non.sleep.naver.android.src.recommend_yes.models.RecommendResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -9,6 +14,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.non.sleep.naver.android.src.ApplicationClass.MEDIA_TYPE_JSON;
+import static com.non.sleep.naver.android.src.ApplicationClass.getRetrofit;
 
 public class RecommendService {
 

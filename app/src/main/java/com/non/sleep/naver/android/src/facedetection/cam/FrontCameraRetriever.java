@@ -60,9 +60,9 @@ public class FrontCameraRetriever implements Application.ActivityLifecycleCallba
 
     @Override
     public void onActivityPaused(Activity activity) {
-        if (camera != null) {
-            camera.recycle();
-        }
+//        if (camera != null) {
+//            camera.recycle();
+//        }
     }
 
     @Override

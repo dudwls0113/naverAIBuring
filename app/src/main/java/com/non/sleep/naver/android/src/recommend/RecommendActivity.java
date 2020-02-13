@@ -1,12 +1,12 @@
 package com.non.sleep.naver.android.src.recommend;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -24,8 +24,8 @@ import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.AudioWriterPCM;
 import com.non.sleep.naver.android.src.BaseActivity;
 import com.non.sleep.naver.android.src.NaverRecognizer;
-import com.non.sleep.naver.android.src.main.MainActivity;
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendView;
+import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,7 +47,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
     private static final String TAG = RecommendActivity.class.getSimpleName();
     private static final String CLIENT_ID = "g0fd605ajk"; // "내 애플리케이션"에서 Client ID를 확인해서 이곳에 적어주세요.
-    private RecommendActivity.RecognitionHandler handler;
+//    private RecommendActivity.RecognitionHandler handler;
     private NaverRecognizer naverRecognizer;
     private TextView txtResult;
     private Button btnStart;
@@ -56,73 +56,73 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
     private boolean isCPVEnd = false;
 
-    private void handleMessage(Message msg) {
-        switch (msg.what) {
-            case R.id.clientReady: // 음성인식 준비 가능
-                txtResult.setText("Connected");
-                writer = new AudioWriterPCM(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
-                writer.open("Test");
-                break;
-            case R.id.audioRecording:
-                writer.write((short[]) msg.obj);
-                break;
-            case R.id.partialResult:
-                mResult = (String) (msg.obj);
-                txtResult.setText(mResult);
-                Log.d("메세지", mResult);
-                break;
-            case R.id.finalResult: // 최종 인식 결과
-                SpeechRecognitionResult speechRecognitionResult = (SpeechRecognitionResult) msg.obj;
-                final List<String> results = speechRecognitionResult.getResults();
-                StringBuilder strBuf = new StringBuilder();
-                final ArrayList<String> similarWord = new ArrayList<>();
-                for(String result : results) {
-                    strBuf.append(result);
-                    strBuf.append("\n");
-                    similarWord.add(result);
-                }
-                mResult = strBuf.toString();
-                showCustomToast(mResult);
-                txtResult.setText(mResult);
-                postCPV(mResult);
-//                postTest(edtTest.getText().toString(), similarWord);
-                System.out.println("결과: " + results.get(0));
-//                cpvTest(results.get(0));
-//                new Thread(){
-//                    @Override
-//                    public void run() {
-//                        testApi(results.get(0));
-//                    }
-//                }.start();
-                break;
-            case R.id.recognitionError:
-                if (writer != null) {
-                    writer.close();
-                }
-                mResult = "Error code : " + msg.obj.toString();
-                txtResult.setText(mResult);
-                break;
-            case R.id.clientInactive:
-                if (writer != null) {
-                    writer.close();
-                }
-                break;
-        }
-    }
-
-    static class RecognitionHandler extends Handler {
-        private final WeakReference<RecommendActivity> mActivity;
-        RecognitionHandler(RecommendActivity activity) {
-            mActivity = new WeakReference<RecommendActivity>(activity);
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            RecommendActivity activity = mActivity.get();
-            if (activity != null) {
-                activity.handleMessage(msg);
-            }
-        }
-    }
+//    private void handleMessage(Message msg) {
+//        switch (msg.what) {
+//            case R.id.clientReady: // 음성인식 준비 가능
+//                txtResult.setText("Connected");
+//                writer = new AudioWriterPCM(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
+//                writer.open("Test");
+//                break;
+//            case R.id.audioRecording:
+//                writer.write((short[]) msg.obj);
+//                break;
+//            case R.id.partialResult:
+//                mResult = (String) (msg.obj);
+//                txtResult.setText(mResult);
+//                Log.d("메세지", mResult);
+//                break;
+//            case R.id.finalResult: // 최종 인식 결과
+//                SpeechRecognitionResult speechRecognitionResult = (SpeechRecognitionResult) msg.obj;
+//                final List<String> results = speechRecognitionResult.getResults();
+//                StringBuilder strBuf = new StringBuilder();
+//                final ArrayList<String> similarWord = new ArrayList<>();
+//                for(String result : results) {
+//                    strBuf.append(result);
+//                    strBuf.append("\n");
+//                    similarWord.add(result);
+//                }
+//                mResult = strBuf.toString();
+//                showCustomToast(mResult);
+//                txtResult.setText(mResult);
+//                postCPV(mResult);
+////                postTest(edtTest.getText().toString(), similarWord);
+//                System.out.println("결과: " + results.get(0));
+////                cpvTest(results.get(0));
+////                new Thread(){
+////                    @Override
+////                    public void run() {
+////                        testApi(results.get(0));
+////                    }
+////                }.start();
+//                break;
+//            case R.id.recognitionError:
+//                if (writer != null) {
+//                    writer.close();
+//                }
+//                mResult = "Error code : " + msg.obj.toString();
+//                txtResult.setText(mResult);
+//                break;
+//            case R.id.clientInactive:
+//                if (writer != null) {
+//                    writer.close();
+//                }
+//                break;
+//        }
+//    }
+//
+//    static class RecognitionHandler extends Handler {
+//        private final WeakReference<RecommendActivity> mActivity;
+//        RecognitionHandler(RecommendActivity activity) {
+//            mActivity = new WeakReference<RecommendActivity>(activity);
+//        }
+//        @Override
+//        public void handleMessage(Message msg) {
+//            RecommendActivity activity = mActivity.get();
+//            if (activity != null) {
+//                activity.handleMessage(msg);
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +131,8 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         mContext = this;
         permissionCheck();
         init();
-        handler = new RecognitionHandler(this);
-        naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
+//        handler = new RecognitionHandler(this);
+//        naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -148,19 +148,19 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 //                }
             }
         };
-        new Thread(){
-            @Override
-            public void run() {
-                while (true){
-                    if(isCPVEnd){
-                        Message msg = handler.obtainMessage();
-                        handler.sendMessage(msg);
-                        isCPVEnd = false;
-                        break;
-                    }
-                }
-            }
-        }.start();
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                while (true){
+//                    if(isCPVEnd){
+//                        Message msg = handler.obtainMessage();
+//                        handler.sendMessage(msg);
+//                        isCPVEnd = false;
+//                        break;
+//                    }
+//                }
+//            }
+//        }.start();
     }
 
     public void permissionCheck(){
@@ -173,28 +173,32 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
 
     void init(){
-        mButtonYes = findViewById(R.id.recommend_btn_yes);
-        mButtonYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                killMediaPlayer();
-            }
-        });
-        txtResult = findViewById(R.id.recommend_tv_test);
+//        mButtonYes = findViewById(R.id.recommend_btn_yes);
+//        mButtonYes.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                killMediaPlayer();
+//                Intent intent = new Intent(RecommendActivity.this, RecommendYesActivity.class);
+//                intent.putExtra("age", 20);
+//                intent.putExtra("gender","F");
+//                startActivity(intent);
+//            }
+//        });
+//        txtResult = findViewById(R.id.recommend_tv_test);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        postCPV("메뉴 추천을 받으시겠습니까?");
+//        postCPV("메뉴 추천을 받으시겠습니까?");
         mResult = "";
-        txtResult.setText("");
+//        txtResult.setText("");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        naverRecognizer.getSpeechRecognizer().initialize();
+//        naverRecognizer.getSpeechRecognizer().initialize();
     }
 
 
@@ -247,6 +251,8 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         }
     }
 
+
+
     void killMediaPlayer(){
         if(mediaPlayer!=null){
             try{
@@ -260,9 +266,9 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     public void onStop() {
         super.onStop();
-        if (naverRecognizer.getSpeechRecognizer().isRunning()){
-            naverRecognizer.getSpeechRecognizer().stop();
-        }
+//        if (naverRecognizer.getSpeechRecognizer().isRunning()){
+//            naverRecognizer.getSpeechRecognizer().stop();
+//        }
     }
 
     @Override
