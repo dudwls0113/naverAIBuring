@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
                 }
                 mResult = strBuf.toString();
                 txtResult.setText(mResult);
-                postTest(edtTest.getText().toString(), similarWord);
+//                postTest(edtTest.getText().toString(), similarWord);
                 System.out.println("결과: " + results.get(0));
 //                cpvTest(results.get(0));
 //                new Thread(){
