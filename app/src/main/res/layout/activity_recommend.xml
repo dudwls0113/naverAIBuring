@@ -13,36 +13,36 @@
         android:layout_margin="16dp"
         android:background="@drawable/bg_round"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"/>
+            android:layout_weight="3" />
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="35dp"
             android:gravity="center_horizontal"
-            android:lineSpacingExtra="11.5sp"
-            android:text="잠못드는분식점에 오신것을 환영합니다!"
+            android:src="@drawable/iv_welcome"
             android:textColor="#000000"
             android:textSize="28sp" />
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="35dp"
             android:gravity="center_horizontal"
-            android:lineSpacingExtra="8.5sp"
-            android:text="메뉴 추천을 받으시겠습니까?"
+            android:src="@drawable/iv_is_recommend"
             android:textColor="#000000"
-            android:textSize="32.5sp"
-            android:textStyle="bold" />
+            android:textSize="28sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,28 +63,34 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/brn_no" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"/>
+            android:layout_weight="4" />
     </LinearLayout>
+
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/recommend_iv_speak"
-        android:src="@drawable/ic_btn_speak"
+        android:id="@+id/activity_main_iv_recording"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="-5dp"
-        android:layout_marginBottom="100dp" />
+        android:layout_marginBottom="100dp"
+        android:onClick="customOnClick"
+        android:src="@drawable/ic_speak" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="#707070"
-        android:lineSpacingExtra="11.5sp"
-        android:text="AI와 이야기해보세요!"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="130dp"
-        android:layout_marginBottom="80dp"/>
+        android:layout_marginBottom="80dp"
+        android:lineSpacingExtra="11.5sp"
+        android:text="AI와 이야기해보세요!"
+        android:textColor="#707070"
+        android:textSize="30sp" />
+
+
 
 </FrameLayout>
