@@ -2,6 +2,7 @@ package com.non.sleep.naver.android.src.facedetection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.facedetection.cam.FaceDetectionCamera;
 import com.non.sleep.naver.android.src.facedetection.cam.FrontCameraRetriever;
+import com.non.sleep.naver.android.src.recommend.RecommendActivity;
 
 /**
  * Don't forget to add the permissions to the AndroidManifest.xml!
@@ -102,4 +104,12 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
         isCapture = false;
 
     }
+
+    @Override
+    public void nextActivity() {
+        startActivity(new Intent(FaceDetectionActivity.this, RecommendActivity.class));
+        finish();
+    }
+
+
 }

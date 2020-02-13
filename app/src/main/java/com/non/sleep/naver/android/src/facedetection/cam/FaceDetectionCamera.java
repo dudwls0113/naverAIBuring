@@ -77,7 +77,7 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
             if(FaceDetectionActivity.isCapture == true) {
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -194,6 +194,7 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
                 System.out.println("나이 인트값: " + ageInt);
                 System.out.println("기분: " + jsonArray.getJSONObject(0).getJSONObject("emotion").getString("value"));
                 // 서버로 성별, 연령대, 기분을 보내주면 리스폰스로 추천메뉴를 받고
+                listener.nextActivity();
             } else {
                 System.out.println("error !!!");
             }
@@ -224,6 +225,8 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         void onFaceTimedOut();
 
         void onFaceDetectionNonRecoverableError();
+
+        void nextActivity();
 
     }
 
