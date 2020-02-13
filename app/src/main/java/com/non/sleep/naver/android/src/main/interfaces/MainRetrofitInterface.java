@@ -21,9 +21,13 @@ public interface MainRetrofitInterface {
             @Path("number") int number
     );
 
-    @POST("/test")
-    Call<DefaultResponse> postTest(@Body RequestBody params);
+//    @POST("/test")
+//    Call<DefaultResponse> postTest(@Body RequestBody params);
 
     @GET("/project")
     Call<DefaultResponse> getProgect(@Query("orderby") String orderBy);
+
+    @POST("/naver/test")
+    Call<DefaultResponse> postTest(@Body RequestBody params);
+
 }

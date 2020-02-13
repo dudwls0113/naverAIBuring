@@ -2,6 +2,8 @@ package com.non.sleep.naver.android.config;
 
 import androidx.annotation.NonNull;
 
+import com.non.sleep.naver.android.R;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -18,10 +20,14 @@ public class XAccessTokenInterceptor implements Interceptor {
     @NonNull
     public Response intercept(@NonNull final Interceptor.Chain chain) throws IOException {
         final Request.Builder builder = chain.request().newBuilder();
-        final String jwtToken = sSharedPreferences.getString(X_ACCESS_TOKEN, null);
-        if (jwtToken != null) {
-            builder.addHeader("X-ACCESS-TOKEN", jwtToken);
-        }
+        builder.addHeader("X-NCP-APIGW-API-KEY-ID", String.valueOf(R.string.naverId));
+        builder.addHeader("X-NCP-APIGW-API-KEY", String.valueOf(R.string.naverKey));
+        builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+//        final String jwtToken = sSharedPreferences.getString(X_ACCESS_TOKEN, null);
+//        if (jwtToken != null) {
+//
+//        }
         return chain.proceed(builder.build());
     }
 }
