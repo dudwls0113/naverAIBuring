@@ -27,7 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".src.menu_list.MenuListActivitiy"></activity>
+        <activity android:name=".src.recommand_60.Recommend60Activity"></activity>
+        <activity android:name=".src.menu_list.MenuListActivitiy" />
         <activity android:name=".src.shopping.ShoppingActivity" />
         <activity android:name=".src.start.StartActivity">
 
@@ -38,11 +39,13 @@
         </activity>
         <activity android:name=".src.recommend_yes.RecommendYesActivity" />
         <activity android:name=".src.recommend.RecommendActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <provider
@@ -75,13 +78,11 @@
         </activity> <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
         <activity android:name=".src.facedetection.FaceDetectionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
