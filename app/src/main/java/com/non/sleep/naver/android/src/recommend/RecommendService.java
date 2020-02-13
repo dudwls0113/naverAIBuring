@@ -2,6 +2,7 @@ package com.non.sleep.naver.android.src.recommend;
 
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendRetrofitInterface;
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendView;
+import com.non.sleep.naver.android.src.recommend.models.WordResponse;
 import com.non.sleep.naver.android.src.recommend_yes.models.RecommendResponse;
 
 import org.json.JSONException;
@@ -71,6 +72,40 @@ public class RecommendService {
             mRecommendView.cpvFailure(null);
             System.out.println("error: " + e);
         }
+    }
+
+    void postWord(String word){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("word",word);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final RecommendRetrofitInterface recommendRetrofitInterface = getRetrofit().create(RecommendRetrofitInterface.class);
+        recommendRetrofitInterface.postWord(RequestBody.create(params.toString(),MEDIA_TYPE_JSON)).enqueue(new Callback<WordResponse>() {
+            @Override
+            public void onResponse(Call<WordResponse> call, Response<WordResponse> response) {
+                final WordResponse wordResponse = response.body();
+                if(wordResponse==null){
+                    mRecommendView.retrofitFailure(null);
+                }
+                else if(wordResponse.getCode()==1){
+                    mRecommendView.postWordPositiveSuccess();
+                }
+                else if(wordResponse.getCode()==2){
+                    mRecommendView.postWordNegativeSuccess();
+                }
+                else{
+                    mRecommendView.retrofitFailure(wordResponse.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WordResponse> call, Throwable t) {
+                mRecommendView.retrofitFailure(null);
+            }
+        });
     }
 
 }
