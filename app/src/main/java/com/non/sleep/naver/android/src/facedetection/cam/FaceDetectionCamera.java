@@ -3,6 +3,7 @@ package com.non.sleep.naver.android.src.facedetection.cam;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -30,6 +31,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 /**
  * Manages the android camera and sets it up for face detection
@@ -89,7 +91,13 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
                 YuvImage yuvimage = new YuvImage(data, ImageFormat.NV21, width, height, null);
                 yuvimage.compressToJpeg(rect, 100, outstr);
                 Bitmap bmp = BitmapFactory.decodeByteArray(outstr.toByteArray(), 0, outstr.size());
-                saveImage(bmp, "facedetection");
+
+                Matrix matrix = new Matrix();
+                matrix.postRotate(270);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+
+                String tempname = Long.valueOf(new Date().getTime()).toString();
+                saveImage(rotatedBitmap, tempname);
                 FaceDetectionActivity.isCapture = false;
                 Log.i("VSDVDS", "SVDSDV");
                 Toast.makeText(FaceDetectionActivity.context, "CAPTURE", Toast.LENGTH_SHORT).show();
@@ -106,12 +114,7 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         String fname = "Image-" + image_name+ ".jpg";
         final File file = new File(myDir, fname);
         System.out.println("path: " + file.getAbsolutePath());
-        new Thread(){
-            @Override
-            public void run() {
-                testApi(file.getAbsolutePath());
-            }
-        }.start();
+
         if (file.exists()) file.delete();
         Log.i("LOAD", root + fname);
         try {
@@ -122,6 +125,13 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        new Thread(){
+            @Override
+            public void run() {
+                testApi(file.getAbsolutePath());
+            }
+        }.start();
     }
     // save bitmap -> image
 
@@ -185,16 +195,23 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
                 System.out.println("리스폰스: " + response.toString());
                 JSONObject jsonObject = new JSONObject(response.toString());
                 JSONArray jsonArray = jsonObject.getJSONArray("faces");
-                System.out.println("성별: " + jsonArray.getJSONObject(0).getJSONObject("gender").getString("value"));
-                System.out.println("연령대: " + jsonArray.getJSONObject(0).getJSONObject("age").getString("value"));
-                String age = jsonArray.getJSONObject(0).getJSONObject("age").getString("value");
-                age = age.substring(0,age.indexOf('~'));
-                int ageInt = Integer.parseInt(age);
-                ageInt = ageInt-ageInt%10;
-                System.out.println("나이 인트값: " + ageInt);
-                System.out.println("기분: " + jsonArray.getJSONObject(0).getJSONObject("emotion").getString("value"));
+                if(jsonArray.length()>0){
+                    System.out.println("성별: " + jsonArray.getJSONObject(0).getJSONObject("gender").getString("value"));
+                    System.out.println("연령대: " + jsonArray.getJSONObject(0).getJSONObject("age").getString("value"));
+                    String age = jsonArray.getJSONObject(0).getJSONObject("age").getString("value");
+                    age = age.substring(0,age.indexOf('~'));
+                    int ageInt = Integer.parseInt(age);
+                    ageInt = ageInt-ageInt%10;
+                    System.out.println("나이 인트값: " + ageInt);
+                    System.out.println("기분: " + jsonArray.getJSONObject(0).getJSONObject("emotion").getString("value"));
+                    listener.nextActivity();
+                }
+                else{
+                    listener.otherNextActivity();
+                }
+
                 // 서버로 성별, 연령대, 기분을 보내주면 리스폰스로 추천메뉴를 받고
-                listener.nextActivity();
+//                listener.nextActivity();
             } else {
                 System.out.println("error !!!");
             }
@@ -227,6 +244,8 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         void onFaceDetectionNonRecoverableError();
 
         void nextActivity();
+
+        void otherNextActivity();
 
     }
 
