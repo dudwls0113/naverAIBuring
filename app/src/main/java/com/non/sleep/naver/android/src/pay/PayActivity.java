@@ -8,10 +8,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.non.sleep.naver.android.R;
+import com.non.sleep.naver.android.src.BaseActivity;
+
 
 import static com.non.sleep.naver.android.src.ApplicationClass.arrayListSelectedMenu;
 
-public class PayActivity extends AppCompatActivity {
+public class PayActivity extends BaseActivity {
+
 
     private LinearLayout mLinearMenu1, mLinearMenu2, mLinearMenu3;
     private TextView mTextViewMenu1, mTextViewMenu2, mTextViewMenu3, mTextViewTotal;
@@ -26,7 +29,7 @@ public class PayActivity extends AppCompatActivity {
     }
 
 
-    void init(){
+    void init() {
         mLinearMenu1 = findViewById(R.id.linear_menu_1);
         mLinearMenu2 = findViewById(R.id.linear_menu_2);
         mLinearMenu3 = findViewById(R.id.linear_menu_3);
@@ -51,11 +54,11 @@ public class PayActivity extends AppCompatActivity {
 //                mTextViewMenu2.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
             }
 
-            price+=arrayListSelectedMenu.get(i).getPrice();
+            price += arrayListSelectedMenu.get(i).getPrice();
 
         }
 
-        mTextViewTotal.setText(price+"원");
+        mTextViewTotal.setText(price + "원");
 
     }
 }
