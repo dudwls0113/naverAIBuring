@@ -24,6 +24,7 @@
 
 
         <LinearLayout
+            android:id="@+id/linear_menu_1"
             android:layout_width="match_parent"
             android:layout_height="800dp"
             android:layout_marginHorizontal="30dp"
@@ -35,33 +36,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
-            <TextView
-                android:id="@+id/pay_name1_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lineSpacingExtra="13sp"
-                android:text="돌솥비빔밥정식(1)"
-                android:textColor="#000000"
-                android:textSize="32.5sp" />
+                <TextView
+                    android:id="@+id/pay_name1_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingExtra="13sp"
+                    android:text="돌솥비빔밥정식(1)"
+                    android:textColor="#000000"
+                    android:textSize="32.5sp" />
 
-            <TextView
-                android:id="@+id/pay_won1_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="13sp"
-                android:text="10,500원"
-                android:textColor="#000000"
-                android:textSize="32.5sp" />
+                <TextView
+                    android:id="@+id/pay_won1_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="13sp"
+                    android:text="1,000원"
+                    android:textColor="#000000"
+                    android:textSize="32.5sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_menu_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/pay_name2_tv"
@@ -78,16 +82,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="13sp"
-                    android:text="10,500원"
+                    android:text="1,000원"
                     android:textColor="#000000"
                     android:textSize="32.5sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_menu_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/pay_name3_tv"
@@ -104,46 +110,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="13sp"
-                    android:text="10,500원"
+                    android:text="1,000원"
                     android:textColor="#000000"
                     android:textSize="32.5sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
-                android:background="#29000000"/>
+                android:background="#29000000" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="60sp"
-                    android:textColor="#1c1c1c"
                     android:lineSpacingExtra="23.3sp"
-                    tools:text="총 금액"
-                    />
+                    android:textColor="#1c1c1c"
+                    android:textSize="60sp"
+                    tools:text="총 금액" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/total_won_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="60sp"
-                    android:textColor="#ff3400"
                     android:lineSpacingExtra="23.3sp"
-                    tools:text="9,500 원"
-                    />
+                    android:textColor="#ff3400"
+                    android:textSize="60sp"
+                    tools:text="9,500 원" />
             </LinearLayout>
         </LinearLayout>
 
@@ -163,20 +172,21 @@
                 android:id="@+id/pay_select_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="customOnClick"
                 android:layout_marginLeft="30dp"
+                android:onClick="customOnClick"
                 android:src="@drawable/money_img" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/card_select_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="customOnClick"
                 android:layout_marginRight="30dp"
+                android:onClick="customOnClick"
                 android:src="@drawable/card_img" />
 
         </LinearLayout>

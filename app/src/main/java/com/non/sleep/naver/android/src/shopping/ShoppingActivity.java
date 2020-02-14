@@ -156,15 +156,15 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
             if (i == 0) {
                 mLinearMenu1.setVisibility(View.VISIBLE);
                 mTvName1.setText(arrayListSelectedMenu.get(i).getName());
-                mTvWon1.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+//                mTvWon1.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
             } else if (i == 1) {
                 mLinearMenu2.setVisibility(View.VISIBLE);
                 mTvName2.setText(arrayListSelectedMenu.get(i).getName());
-                mTvWon2.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+//                mTvWon2.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
             } else {
                 mLinearMenu3.setVisibility(View.VISIBLE);
                 mTvName3.setText(arrayListSelectedMenu.get(i).getName());
-                mTvWon3.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+//                mTvWon3.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
             }
 
         }
@@ -182,9 +182,9 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
             mTvName3.setText(name3);
         }
 
-        mTvWon1.setText(won1 + "원");
-        mTvWon2.setText(won2 + "원");
-        mTvWon3.setText(won3 + "원");
+//        mTvWon1.setText(won1 + "원");
+//        mTvWon2.setText(won2 + "원");
+//        mTvWon3.setText(won3 + "원");
 
         handler = new ShoppingActivity.RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(mContext, handler, CLIENT_ID);

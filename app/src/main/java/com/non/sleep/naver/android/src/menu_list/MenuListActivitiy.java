@@ -241,6 +241,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
     public void postWordConfirmName(ObjectResponse objectResponse) {
         hideProgressDialog();
         System.out.println("리스폰스 코드: 3");
+        arrayListSelectedMenu.add(new selectedMenu(objectResponse.getName(), 1000));
         Intent intent = new Intent(MenuListActivitiy.this, ShoppingActivity.class);
         startActivity(intent);
         finish();

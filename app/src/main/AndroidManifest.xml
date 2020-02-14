@@ -35,24 +35,23 @@
         <activity android:name=".src.menu_list.MenuListActivitiy" />
         <activity android:name=".src.shopping.ShoppingActivity" />
         <activity android:name=".src.recommend_ai.RecommendAiActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
         <activity android:name=".src.pay.PayActivity"/>
         <activity android:name=".src.start.StartActivity">
 
         </activity>
-        <activity android:name=".src.recommend_yes.RecommendYesActivity" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+        <activity android:name=".src.recommend_yes.RecommendYesActivity">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
-        <activity android:name=".src.recommend.RecommendActivity">
-        </activity>
+        <activity android:name=".src.recommend.RecommendActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -66,12 +65,12 @@
 
         <activity android:name=".src.test.TestActivity">
 
-<!--             <intent-filter> -->
-<!--             <action android:name="android.intent.action.MAIN" /> -->
+            <!--             <intent-filter> -->
+            <!--             <action android:name="android.intent.action.MAIN" /> -->
 
 
-<!--             <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
+            <!--             <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!--             </intent-filter> -->
         </activity>
         <activity android:name=".src.main.MainActivity">
 
@@ -91,6 +90,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".src.pay.PayActivity" />
     </application>
 
 </manifest>
