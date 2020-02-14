@@ -104,12 +104,12 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                     isRecordingMode = true;
                     naverRecognizer.getSpeechRecognizer().initialize();
                     if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
-                        Log.d("로그", "루프2");
+//                        Log.d("로그", "루프2");
                         mResult = "";
 //                        txtResult.setText("Connecting...");
                         naverRecognizer.recognize();
                     } else {
-                        Log.d(TAG, "stop and wait Final Result");
+//                        Log.d(TAG, "stop and wait Final Result");
                         naverRecognizer.getSpeechRecognizer().stop();
                     }
                 }
@@ -289,7 +289,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                 mediaPlayer.prepare();
                 mediaPlayer.start();
                 while (mediaPlayer.isPlaying()) {
-                    Log.d("로그", "루프");
+//                    Log.d("로그", "루프");
                 }
                 is.close();
                 System.out.println("성공6");
@@ -373,12 +373,12 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                     isRecordingMode = true;
                     naverRecognizer.getSpeechRecognizer().initialize();
                     if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
-                        Log.d("로그", "루프3333");
+//                        Log.d("로그", "루프3333");
                         mResult = "";
 //                        txtResult.setText("Connecting...");
                         naverRecognizer.recognize();
                     } else {
-                        Log.d(TAG, "stop and wait Final Result");
+//                        Log.d(TAG, "stop and wait Final Result");
                         naverRecognizer.getSpeechRecognizer().stop();
                     }
 
@@ -403,7 +403,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 
     void yesClick() {
         arrayListSelectedMenu.add(new selectedMenu(name, price));
-
+        Log.d("로그", name+price);
         Intent intent = new Intent(this, ShoppingActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("price", price);
