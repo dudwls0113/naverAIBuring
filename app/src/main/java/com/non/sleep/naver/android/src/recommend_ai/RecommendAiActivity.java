@@ -109,7 +109,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
                     similarWord.add(result);
                 }
                 mResult = strBuf.toString();
-                showCustomToast(mResult);
+//                showCustomToast(mResult);
 //                txtResult.setText(mResult);
 //                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
@@ -310,7 +310,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     @Override
     public void retrofitFailure(String message) {
         hideProgressDialog();
-        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : "죄송합니다. 다시 한 번 말해주세요.");
     }
 
     @Override
@@ -457,7 +457,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     public void customOnClick(final View view) {
         switch (view.getId()) {
             case R.id.activity_main_iv_recording:
-                showCustomToast("dd");
+//                showCustomToast("dd");
 
                 if(isRecordingMode){
                     //녹음끄기

@@ -106,7 +106,7 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
                 saveImage(rotatedBitmap, tempname);
                 FaceDetectionActivity.isCapture = false;
                 Log.i("VSDVDS", "SVDSDV");
-                Toast.makeText(FaceDetectionActivity.context, "CAPTURE", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(FaceDetectionActivity.context, "CAPTURE", Toast.LENGTH_SHORT).show();
             }
         }
     };
