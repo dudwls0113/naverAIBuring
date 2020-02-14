@@ -41,6 +41,7 @@ public class RecommendYesService {
             public void onResponse(Call<RecommendResponse> call, Response<RecommendResponse> response) {
                 final RecommendResponse recommendResponse = response.body();
                 if(recommendResponse==null){
+                    System.out.println("에러에러");
                     mRecommendYesView.retrofitFailure(null);
                 }
                 else if(recommendResponse.getCode()==100){
