@@ -23,7 +23,7 @@ public class MenuListService {
         mMenuListView = menuListView;
     }
 
-    public void postWord(String word){
+    public void postWord(final String word){
         JSONObject params = new JSONObject();
         try {
             params.put("word",word);
@@ -49,7 +49,7 @@ public class MenuListService {
                     mMenuListView.postWordConfirmName(commonResponse.getObject());
                 }
                 else if(commonResponse.getCode()==4){ // 메뉴카테고리
-                    mMenuListView.postWordConfirmCategory(commonResponse.getObjectResponses());
+                    mMenuListView.postWordConfirmCategory(commonResponse.getObjectResponses(), word);
                 }
             }
 

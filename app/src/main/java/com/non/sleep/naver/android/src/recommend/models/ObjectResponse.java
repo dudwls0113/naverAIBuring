@@ -16,6 +16,32 @@ public class ObjectResponse {
     @SerializedName("category")
     String category;
 
+    public boolean select = false;
+
+    public void setMenuNo(int menuNo) {
+        this.menuNo = menuNo;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public int getMenuNo() {
         return menuNo;
     }

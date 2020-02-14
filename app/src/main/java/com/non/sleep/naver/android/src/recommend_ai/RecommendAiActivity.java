@@ -29,36 +29,26 @@ import com.non.sleep.naver.android.src.AudioWriterPCM;
 import com.non.sleep.naver.android.src.BaseActivity;
 import com.non.sleep.naver.android.src.NaverRecognizer;
 import com.non.sleep.naver.android.src.menu_list.MenuListActivitiy;
-import com.non.sleep.naver.android.src.recommend.RecommendActivity;
-import com.non.sleep.naver.android.src.recommend.interfaces.RecommendRetrofitInterface;
-import com.non.sleep.naver.android.src.recommend.interfaces.RecommendView;
-import com.non.sleep.naver.android.src.recommend.models.WordResponse;
-import com.non.sleep.naver.android.src.recommend_ai.interfaces.interfaces.RecommendAiRetrofitInterface;
+import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
 import com.non.sleep.naver.android.src.recommend_ai.interfaces.interfaces.RecommendAiView;
-import com.non.sleep.naver.android.src.recommend_ai.models.ObjectResponse;
+import com.non.sleep.naver.android.src.recommend_ai.models.ObjectResponse2;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.non.sleep.naver.android.src.ApplicationClass.MEDIA_TYPE_JSON;
-import static com.non.sleep.naver.android.src.ApplicationClass.getRetrofit;
 
 public class RecommendAiActivity extends BaseActivity implements RecommendAiView {
 
@@ -94,6 +84,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
         switch (msg.what) {
             case R.id.clientReady: // 음성인식 준비 가능
 //                txtResult.setText("Connected");
+                System.out.println("connected");
                 writer = new AudioWriterPCM(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
                 writer.open("Test");
                 break;
@@ -118,7 +109,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
                 mResult = strBuf.toString();
                 showCustomToast(mResult);
 //                txtResult.setText(mResult);
-                postCPV(mResult);
+//                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
                 System.out.println("결과: " + results.get(0));
                 postWord(results.get(0));
@@ -148,11 +139,6 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
                         .into(mImageViewRecording);
                 isRecordingMode = false;
                 break;
-            case R.id.recommend_ai_cancel_btn:
-                // 취소화면
-            case R.id.recommend_ai_pay_iv:
-                // 결제화면
-                break;
         }
     }
 
@@ -171,16 +157,16 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     }
 
     void postWord(String word){
-        showProgressDialog();
+//        showProgressDialog();
         final RecommendAiService recommendAiService = new RecommendAiService(this);
         recommendAiService.postWord(word);
     }
 
-    void postWorldListFun(int age, String gender) {
-        showProgressDialog();
-        final RecommendAiService recommendAiService = new RecommendAiService(this);
-        recommendAiService.postWordList(age, gender);
-    }
+//    void postWorldListFun(int age, String gender) {
+//        showProgressDialog();
+//        final RecommendAiService recommendAiService = new RecommendAiService(this);
+//        recommendAiService.postWordList(age, gender);
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,7 +178,53 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
         handler = new RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
 
-//        String type = getIntent().getStringExtra("type");
+        String type = getIntent().getStringExtra("type");
+        postWord(type);
+
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                if(isRecordingMode){
+                    //녹음끄기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).load(R.drawable.ic_speak)
+                            .into(mImageViewRecording);
+                    isRecordingMode = false;
+                }
+                else {
+                    //녹음켜기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).asGif()
+                            .load(R.raw.gif_recoding)
+                            .into(mImageViewRecording);
+                    isRecordingMode = true;
+                    naverRecognizer.getSpeechRecognizer().initialize();
+                    if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                        Log.d("로그", "루프2");
+                        mResult = "";
+//                        txtResult.setText("Connecting...");
+                        naverRecognizer.recognize();
+                    } else {
+                        Log.d(TAG, "stop and wait Final Result");
+                        naverRecognizer.getSpeechRecognizer().stop();
+                    }
+                }
+            }
+        };
+        new Thread(){
+            @Override
+            public void run() {
+                while (true){
+                    if(isCPVEnd){
+                        Message msg = handler.obtainMessage();
+                        handler.sendMessage(msg);
+                        isCPVEnd = false;
+                        break;
+                    }
+                }
+            }
+        }.start();
+
 //        int age = getIntent().getIntExtra("age", 0);
 //        String gender = getIntent().getStringExtra("gender");
 //        mTvType.setText(type + " 추천해줘");
@@ -204,40 +236,15 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
             Log.i("SDVSVD", "SDVSVD");
         }
         mRV.setLayoutManager(mLayoutManager);
-        adapter = new RecommendAiAdapter();
+        adapter = new RecommendAiAdapter(mContext);
         mRV.setAdapter(adapter);
 
-        postWorldListFun(20, "F");
+//        postWorldListFun(20, "F");
 
-//        final Handler handler = new Handler(){
-//            @Override
-//            public void handleMessage(@NonNull Message msg) {
-//                if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
-//                    Log.d("로그", "루프2");
-//                    mResult = "";
-//                    txtResult.setText("Connecting...");
-//                    naverRecognizer.recognize();
-//                }
-//                else {
-//                    Log.d(TAG, "stop and wait Final Result");
-//                    naverRecognizer.getSpeechRecognizer().stop();
-//                }
-//            }
-//        };
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                while (true){
-//                    if(isCPVEnd){
-//                        Message msg = handler.obtainMessage();
-//                        handler.sendMessage(msg);
-//                        isCPVEnd = false;
-//                        break;
-//                    }
-//                }
-//            }
-//        }.start();
+//
     }
+
+
 
     public void permissionCheck(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -277,7 +284,6 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     @Override
     protected void onResume() {
         super.onResume();
-        postCPV("메뉴 추천을 받으시겠습니까?");
         mResult = "";
 //        txtResult.setText("");
     }
@@ -289,54 +295,8 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     }
 
 
-    void postCPV(final String input){
-//        showProgressDialog();
-        final RecommendAiService recommendAiService = new RecommendAiService(this);
-        new Thread(){
-            @Override
-            public void run() {
-                recommendAiService.postCPV(input);
-            }
-        }.start();
-    }
 
 
-    @Override
-    public void cpvFailure(String message) {
-        hideProgressDialog();
-        Looper.prepare();
-        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
-        Looper.loop();
-    }
-
-    @Override
-    public void cpvSuccess(InputStream inputStream) {
-        hideProgressDialog();
-        int read = 0;
-        byte[] bytes = new byte[1024];
-        // 랜덤한 이름으로 mp3 파일 생성
-        String tempName = Long.valueOf(new Date().getTime()).toString();
-        File f = new File(getFilesDir(), tempName + ".mp3");
-        System.out.println("file path: " + f.getAbsolutePath());
-        try {
-            f.createNewFile();
-            OutputStream outputStream = new FileOutputStream(f);
-            while ((read =inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
-            }
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(f.getAbsolutePath());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            while (mediaPlayer.isPlaying()){
-                Log.d("로그", "루프");
-            }
-            inputStream.close();
-//            isCPVEnd = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void retrofitFailure(String message) {
@@ -359,6 +319,24 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     }
 
     @Override
+    public void postWordConfirmName(ObjectResponse objectResponse) {
+
+    }
+
+    @Override
+    public void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList, String word, final String message) {
+        System.out.println(message);
+        new Thread(){
+            @Override
+            public void run() {
+                textToSpeech(message);
+            }
+        }.start();
+        adapter.mData = arrayList;
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void postWordList(ArrayList<ObjectResponse> list) {
         Log.i("SDVsd", "SDVDS");
         adapter.mData = list;
@@ -376,6 +354,70 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
         }
     }
 
+    void textToSpeech(String input) {
+        String clientId = "g0fd605ajk";
+        String clientSecret = "ZgiGkHGhY3kNc5ulmYD70rkKAM3FeGnONBZpjN63";
+        try {
+            String text = URLEncoder.encode(input, "UTF-8"); // 13자
+            String apiURL = "https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts";
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
+            con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
+            // post request
+            String postParams = "speaker=nara&volume=0&speed=0&pitch=0&emotion=0&format=mp3&text=" + text;
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(postParams);
+            wr.flush();
+            wr.close();
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if(responseCode==200) { // 정상 호출
+                System.out.println("성공");
+                InputStream is = con.getInputStream();
+                System.out.println("성공2");
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                // 랜덤한 이름으로 mp3 파일 생성
+                String tempname = Long.valueOf(new Date().getTime()).toString();
+                File f = new File(getFilesDir(), tempname + ".mp3");
+                System.out.println("file path: " + f.getAbsolutePath());
+                f.createNewFile();
+                System.out.println("성공3");
+                OutputStream outputStream = new FileOutputStream(f);
+                System.out.println("성공4");
+                while ((read =is.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+                System.out.println("성공5");
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(f.getAbsolutePath());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                while (mediaPlayer.isPlaying()){
+                    Log.d("로그", "루프");
+                }
+                is.close();
+                System.out.println("성공6");
+                isCPVEnd = true;
+            } else {  // 오류 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = br.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                br.close();
+                System.out.println("리스폰스 에러: " + response.toString());
+            }
+        } catch (Exception e) {
+            System.out.println("error: " + e);
+        }
+
+    }
+
     void killMediaPlayer(){
         if(mediaPlayer!=null){
             try{
@@ -389,9 +431,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     @Override
     public void onStop() {
         super.onStop();
-        if (naverRecognizer.getSpeechRecognizer().isRunning()){
-            naverRecognizer.getSpeechRecognizer().stop();
-        }
+        naverRecognizer.getSpeechRecognizer().release();
     }
 
     @Override

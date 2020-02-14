@@ -2,7 +2,7 @@ package com.non.sleep.naver.android.src.recommend_ai.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectResponse {
+public class ObjectResponse2 {
     @SerializedName("menuNo")
     int menuNo;
 

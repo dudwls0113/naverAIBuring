@@ -240,7 +240,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
     }
 
     @Override
-    public void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList) {
+    public void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList, String word) {
         hideProgressDialog();
         System.out.println("리스폰스 코드: 4");
     }

@@ -14,5 +14,5 @@ public interface MenuListView {
 
     void postWordConfirmName(ObjectResponse objectResponse);
 
-    void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList);
+    void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList, String word);
 }

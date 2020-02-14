@@ -22,6 +22,7 @@ import com.non.sleep.naver.android.src.BaseActivity;
 import com.non.sleep.naver.android.src.NaverRecognizer;
 import com.non.sleep.naver.android.src.menu_list.interfaces.MenuListView;
 import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
+import com.non.sleep.naver.android.src.recommend_ai.RecommendAiActivity;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
 import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
@@ -214,9 +215,12 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
     }
 
     @Override
-    public void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList) {
+    public void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList, String word) {
         hideProgressDialog();
         System.out.println("리스폰스 코드: 4");
+        Intent intent = new Intent(MenuListActivitiy.this, RecommendAiActivity.class);
+        intent.putExtra("type",word);
+        startActivity(intent);
     }
 
     private static class RecognitionHandler extends Handler {
