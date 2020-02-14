@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import com.non.sleep.naver.android.config.XAccessTokenInterceptor;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +41,8 @@ public class ApplicationClass extends Application {
 
     // Retrofit 인스턴스
     public static Retrofit retrofit;
+
+    public static ArrayList<selectedMenu> arrayListSelectedMenu = new ArrayList<>();
 
     @Override
     public void onCreate() {

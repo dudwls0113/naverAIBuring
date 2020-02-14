@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import com.non.sleep.naver.android.src.NaverRecognizer;
 import com.non.sleep.naver.android.src.menu_list.MenuListActivitiy;
 import com.non.sleep.naver.android.src.menu_list.MenuListService;
 import com.non.sleep.naver.android.src.menu_list.interfaces.MenuListView;
+import com.non.sleep.naver.android.src.pay.PayActivity;
 import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
 
 import java.io.BufferedReader;
@@ -78,7 +80,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
                 final List<String> results = speechRecognitionResult.getResults();
                 StringBuilder strBuf = new StringBuilder();
                 final ArrayList<String> similarWord = new ArrayList<>();
-                for(String result : results) {
+                for (String result : results) {
                     strBuf.append(result);
                     strBuf.append("\n");
                     similarWord.add(result);
@@ -129,9 +131,9 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
         String name2 = getIntent().getStringExtra("name2");
         String name3 = getIntent().getStringExtra("name3");
 
-        int won1 = getIntent().getIntExtra("won1",0);
-        int won2 = getIntent().getIntExtra("won2",0);
-        int won3 = getIntent().getIntExtra("won3",0);
+        int won1 = getIntent().getIntExtra("won1", 0);
+        int won2 = getIntent().getIntExtra("won2", 0);
+        int won3 = getIntent().getIntExtra("won3", 0);
 
         mTvName1 = findViewById(R.id.shop_tv_menu1);
         mTvName2 = findViewById(R.id.shop_tv_menu2);
@@ -143,13 +145,13 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
 
         mImageViewRecording = findViewById(R.id.activity_main_iv_recording);
 
-        if(name1 != null && name1!="") {
+        if (name1 != null && name1 != "") {
             mTvName1.setText(name1);
         }
-        if(name2 != null && name2 !="") {
+        if (name2 != null && name2 != "") {
             mTvName2.setText(name2);
         }
-        if(name3 != null && name3 !="") {
+        if (name3 != null && name3 != "") {
             mTvName3.setText(name3);
         }
 
@@ -159,23 +161,22 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
 
         handler = new ShoppingActivity.RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(mContext, handler, CLIENT_ID);
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 textToSpeech();
             }
         }.start();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else {
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -195,11 +196,11 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
                 }
             }
         };
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                while (true){
-                    if(isCPVEnd){
+                while (true) {
+                    if (isCPVEnd) {
                         Message msg = handler.obtainMessage();
                         handler.sendMessage(msg);
                         isCPVEnd = false;
@@ -209,7 +210,8 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
             }
         }.start();
     }
-    void postWord(String word){
+
+    void postWord(String word) {
         showProgressDialog();
         final MenuListService menuListService = new MenuListService(this);
         menuListService.postWord(word);
@@ -224,12 +226,17 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
     @Override
     public void postWordPositiveSuccess() {
         hideProgressDialog();
+        Intent intent = new Intent(this, PayActivity.class);
+        startActivity(intent);
+
         System.out.println("리스폰스 코드: 1");
     }
 
     @Override
     public void postWordNegativeSuccess() {
         hideProgressDialog();
+        Intent intent = new Intent(this, MenuListActivitiy.class);
+        startActivity(intent);
         System.out.println("리스폰스 코드: 2");
     }
 
@@ -247,9 +254,11 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
 
     private static class RecognitionHandler extends Handler {
         private final WeakReference<ShoppingActivity> mActivity;
+
         RecognitionHandler(ShoppingActivity activity) {
             mActivity = new WeakReference<ShoppingActivity>(activity);
         }
+
         @Override
         public void handleMessage(Message msg) {
             ShoppingActivity activity = mActivity.get();
@@ -278,14 +287,13 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
             case R.id.shopping_no_iv:
                 break;
             case R.id.activity_main_iv_recording:
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else {
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -314,7 +322,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
             String text = URLEncoder.encode("추가 주문 하시겠습니까?", "UTF-8"); // 13자
             String apiURL = "https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts";
             URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
@@ -327,7 +335,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
             wr.close();
             int responseCode = con.getResponseCode();
             BufferedReader br;
-            if(responseCode==200) { // 정상 호출
+            if (responseCode == 200) { // 정상 호출
                 System.out.println("성공");
                 InputStream is = con.getInputStream();
                 System.out.println("성공2");
@@ -341,7 +349,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
                 System.out.println("성공3");
                 OutputStream outputStream = new FileOutputStream(f);
                 System.out.println("성공4");
-                while ((read =is.read(bytes)) != -1) {
+                while ((read = is.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, read);
                 }
                 System.out.println("성공5");
@@ -349,7 +357,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
                 mediaPlayer.setDataSource(f.getAbsolutePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-                while (mediaPlayer.isPlaying()){
+                while (mediaPlayer.isPlaying()) {
                     Log.d("로그", "루프");
                 }
                 is.close();

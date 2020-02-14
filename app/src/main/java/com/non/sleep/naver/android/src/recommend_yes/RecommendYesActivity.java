@@ -23,8 +23,13 @@ import com.non.sleep.naver.android.src.AudioWriterPCM;
 import com.non.sleep.naver.android.src.BaseActivity;
 import com.non.sleep.naver.android.src.NaverRecognizer;
 import com.non.sleep.naver.android.src.main.MainActivity;
+import com.non.sleep.naver.android.src.menu_list.MenuListActivitiy;
+import com.non.sleep.naver.android.src.recommend.RecommendActivity;
+import com.non.sleep.naver.android.src.recommend.RecommendService;
 import com.non.sleep.naver.android.src.recommend_yes.interfaces.RecommendYesView;
 import com.non.sleep.naver.android.src.recommend_yes.models.RecommendObject;
+import com.non.sleep.naver.android.src.selectedMenu;
+import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -41,11 +46,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.non.sleep.naver.android.src.ApplicationClass.arrayListSelectedMenu;
+
 public class RecommendYesActivity extends BaseActivity implements RecommendYesView {
 
     Context mContext;
     boolean isRecordingMode = false;
-    private ImageView mImageViewRecording;
+    private ImageView mImageViewRecording, mImageViewMenu;
     private MediaPlayer mediaPlayer;
 
     private static final String TAG = RecommendYesActivity.class.getSimpleName();
@@ -58,6 +65,8 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
     int age;
     String gender = "M";
 
+    String name;
+    int price;
     private TextView mTextViewAge;
     private TextView mTextViewFoodName;
 
@@ -71,23 +80,22 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
         init();
         handler = new RecommendYesActivity.RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(mContext, handler, CLIENT_ID);
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 textToSpeech(age);
             }
         }.start();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else {
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -107,11 +115,11 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                 }
             }
         };
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                while (true){
-                    if(isCPVEnd){
+                while (true) {
+                    if (isCPVEnd) {
                         Message msg = handler.obtainMessage();
                         handler.sendMessage(msg);
                         isCPVEnd = false;
@@ -128,14 +136,16 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
         naverRecognizer.getSpeechRecognizer().initialize();
     }
 
-    void init(){
-        age = getIntent().getIntExtra("age",20);
+    void init() {
+        age = getIntent().getIntExtra("age", 20);
         gender = getIntent().getStringExtra("gender");
         postRecommend(age, gender);
         mImageViewRecording = findViewById(R.id.yes_iv_recording);
         mTextViewAge = findViewById(R.id.food_age);
-        mTextViewAge.setText(age+"대 추천 메뉴");
+        mTextViewAge.setText(age + "대 추천 메뉴");
         mTextViewFoodName = findViewById(R.id.food_name);
+
+        mImageViewMenu = findViewById(R.id.iv_menu);
     }
 
     private void handleMessage(Message msg) {
@@ -159,7 +169,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                 final List<String> results = speechRecognitionResult.getResults();
                 StringBuilder strBuf = new StringBuilder();
                 final ArrayList<String> similarWord = new ArrayList<>();
-                for(String result : results) {
+                for (String result : results) {
                     strBuf.append(result);
                     strBuf.append("\n");
                     similarWord.add(result);
@@ -169,7 +179,9 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 //                txtResult.setText(mResult);
 //                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
-                System.out.println("결과: " + results.get(0));
+//                System.out.println("결과: " + results.get(0));
+                postWord(results.get(0));
+                Log.d("메세지 post word", results.get(0));
 //                postWord(results.get(0));
 //                cpvTest(results.get(0));
 //                new Thread(){
@@ -202,9 +214,11 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 
     private static class RecognitionHandler extends Handler {
         private final WeakReference<RecommendYesActivity> mActivity;
+
         RecognitionHandler(RecommendYesActivity activity) {
             mActivity = new WeakReference<RecommendYesActivity>(activity);
         }
+
         @Override
         public void handleMessage(Message msg) {
             RecommendYesActivity activity = mActivity.get();
@@ -236,10 +250,10 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
         String clientId = "g0fd605ajk";
         String clientSecret = "ZgiGkHGhY3kNc5ulmYD70rkKAM3FeGnONBZpjN63";
         try {
-            String text = URLEncoder.encode(age+"대 추천 메뉴입니다.   선택하시겠습니까?", "UTF-8"); // 13자
+            String text = URLEncoder.encode(age + "대 추천 메뉴입니다.   선택하시겠습니까?", "UTF-8"); // 13자
             String apiURL = "https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts";
             URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
@@ -252,7 +266,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
             wr.close();
             int responseCode = con.getResponseCode();
             BufferedReader br;
-            if(responseCode==200) { // 정상 호출
+            if (responseCode == 200) { // 정상 호출
                 System.out.println("성공");
                 InputStream is = con.getInputStream();
                 System.out.println("성공2");
@@ -266,7 +280,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                 System.out.println("성공3");
                 OutputStream outputStream = new FileOutputStream(f);
                 System.out.println("성공4");
-                while ((read =is.read(bytes)) != -1) {
+                while ((read = is.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, read);
                 }
                 System.out.println("성공5");
@@ -274,7 +288,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                 mediaPlayer.setDataSource(f.getAbsolutePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-                while (mediaPlayer.isPlaying()){
+                while (mediaPlayer.isPlaying()) {
                     Log.d("로그", "루프");
                 }
                 is.close();
@@ -296,7 +310,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 
     }
 
-    void postRecommend(int age, String gender){
+    void postRecommend(int age, String gender) {
         System.out.println("age: " + age + ", " + gender);
         showProgressDialog();
         final RecommendYesService recommendYesService = new RecommendYesService(this);
@@ -315,8 +329,28 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
         hideProgressDialog();
         Log.d("name", arrayList.get(0).getName());
         String percent = Double.toString(arrayList.get(0).getPercentage());
-        percent = percent.substring(0,percent.indexOf('.')+2);
-        mTextViewFoodName.setText(arrayList.get(0).getName()+" (" +percent + "%) ");
+        percent = percent.substring(0, percent.indexOf('.') + 2);
+        mTextViewFoodName.setText(arrayList.get(0).getName() + " (" + percent + "%) ");
+        name = arrayList.get(0).getName();
+        price = arrayList.get(0).getPrice();
+        Glide.with(RecommendYesActivity.this).load(arrayList.get(0).getImageUrl())
+                .into(mImageViewMenu);
+    }
+
+    void postWord(String word) {
+//        showProgressDialog();
+        final RecommendYesService recommendService = new RecommendYesService(this);
+        recommendService.postWord(word);
+    }
+
+    @Override
+    public void yes() {
+        yesClick();
+    }
+
+    @Override
+    public void no() {
+        noClick();
     }
 
     public void customOnClick(final View view) {
@@ -324,14 +358,13 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
             case R.id.yes_iv_recording:
                 showCustomToast("dd");
 
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else{
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -339,19 +372,46 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                             .into(mImageViewRecording);
                     isRecordingMode = true;
                     naverRecognizer.getSpeechRecognizer().initialize();
-                    if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                    if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
                         Log.d("로그", "루프3333");
                         mResult = "";
 //                        txtResult.setText("Connecting...");
                         naverRecognizer.recognize();
-                    }
-                    else {
+                    } else {
                         Log.d(TAG, "stop and wait Final Result");
                         naverRecognizer.getSpeechRecognizer().stop();
                     }
 
                 }
                 break;
+
+            case R.id.recommend_iv_yes:
+                Intent intent = new Intent(this, ShoppingActivity.class);
+                intent.putExtra("age", age);
+                intent.putExtra("gender", gender);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.recommend_iv_no:
+                intent = new Intent(this, MenuListActivitiy.class);
+                startActivity(intent);
+                finish();
+                break;
         }
+    }
+
+    void yesClick() {
+        arrayListSelectedMenu.add(new selectedMenu(name, price));
+
+        Intent intent = new Intent(this, ShoppingActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("price", price);
+        startActivity(intent);
+    }
+
+    void noClick() {
+        Intent intent = new Intent(this, MenuListActivitiy.class);
+        startActivity(intent);
     }
 }

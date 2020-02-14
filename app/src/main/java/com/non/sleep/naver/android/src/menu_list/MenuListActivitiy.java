@@ -24,6 +24,7 @@ import com.non.sleep.naver.android.src.menu_list.interfaces.MenuListView;
 import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
 import com.non.sleep.naver.android.src.recommend_ai.RecommendAiActivity;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
+import com.non.sleep.naver.android.src.selectedMenu;
 import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
 import java.io.BufferedReader;
@@ -40,6 +41,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.non.sleep.naver.android.src.ApplicationClass.arrayListSelectedMenu;
 
 public class MenuListActivitiy extends BaseActivity implements MenuListView {
 
@@ -78,7 +81,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
                 final List<String> results = speechRecognitionResult.getResults();
                 StringBuilder strBuf = new StringBuilder();
                 final ArrayList<String> similarWord = new ArrayList<>();
-                for(String result : results) {
+                for (String result : results) {
                     strBuf.append(result);
                     strBuf.append("\n");
                     similarWord.add(result);
@@ -127,23 +130,22 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
         init();
         handler = new MenuListActivitiy.RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(mContext, handler, CLIENT_ID);
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 textToSpeech();
             }
         }.start();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else {
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -163,11 +165,11 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
                 }
             }
         };
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                while (true){
-                    if(isCPVEnd){
+                while (true) {
+                    if (isCPVEnd) {
                         Message msg = handler.obtainMessage();
                         handler.sendMessage(msg);
                         isCPVEnd = false;
@@ -178,11 +180,11 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
         }.start();
     }
 
-    void init(){
+    void init() {
         mImageViewRecording = findViewById(R.id.activity_main_iv_recording);
     }
 
-    void postWord(String word){
+    void postWord(String word) {
         showProgressDialog();
         final MenuListService menuListService = new MenuListService(this);
         menuListService.postWord(word);
@@ -227,9 +229,11 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
 
     private static class RecognitionHandler extends Handler {
         private final WeakReference<MenuListActivitiy> mActivity;
+
         RecognitionHandler(MenuListActivitiy activity) {
             mActivity = new WeakReference<MenuListActivitiy>(activity);
         }
+
         @Override
         public void handleMessage(Message msg) {
             MenuListActivitiy activity = mActivity.get();
@@ -258,7 +262,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
             String text = URLEncoder.encode("어떤 메뉴를 선택하시겠습니까?", "UTF-8"); // 13자
             String apiURL = "https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts";
             URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
@@ -271,7 +275,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
             wr.close();
             int responseCode = con.getResponseCode();
             BufferedReader br;
-            if(responseCode==200) { // 정상 호출
+            if (responseCode == 200) { // 정상 호출
                 System.out.println("성공");
                 InputStream is = con.getInputStream();
                 System.out.println("성공2");
@@ -285,7 +289,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
                 System.out.println("성공3");
                 OutputStream outputStream = new FileOutputStream(f);
                 System.out.println("성공4");
-                while ((read =is.read(bytes)) != -1) {
+                while ((read = is.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, read);
                 }
                 System.out.println("성공5");
@@ -293,7 +297,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
                 mediaPlayer.setDataSource(f.getAbsolutePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-                while (mediaPlayer.isPlaying()){
+                while (mediaPlayer.isPlaying()) {
                     Log.d("로그", "루프");
                 }
                 is.close();
@@ -316,16 +320,15 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
     }
 
     public void customOnClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.activity_main_iv_recording:
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else {
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -343,6 +346,19 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
                         naverRecognizer.getSpeechRecognizer().stop();
                     }
                 }
+                break;
+
+            case R.id.iv_gimbap:
+                arrayListSelectedMenu.add(new selectedMenu("야채김밥", 1000));
+                break;
+            case R.id.iv_gimchi:
+                arrayListSelectedMenu.add(new selectedMenu("김치찌개", 1000));
+                break;
+            case R.id.iv_udong:
+                arrayListSelectedMenu.add(new selectedMenu("우동", 1000));
+                break;
+            case R.id.iv_bibimbap:
+                arrayListSelectedMenu.add(new selectedMenu("돌솥비빔밥", 1000));
                 break;
         }
     }

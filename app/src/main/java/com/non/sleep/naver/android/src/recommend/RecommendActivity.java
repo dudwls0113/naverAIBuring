@@ -84,7 +84,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 final List<String> results = speechRecognitionResult.getResults();
                 StringBuilder strBuf = new StringBuilder();
                 final ArrayList<String> similarWord = new ArrayList<>();
-                for(String result : results) {
+                for (String result : results) {
                     strBuf.append(result);
                     strBuf.append("\n");
                     similarWord.add(result);
@@ -127,9 +127,11 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
     private static class RecognitionHandler extends Handler {
         private final WeakReference<RecommendActivity> mActivity;
+
         RecognitionHandler(RecommendActivity activity) {
             mActivity = new WeakReference<RecommendActivity>(activity);
         }
+
         @Override
         public void handleMessage(Message msg) {
             RecommendActivity activity = mActivity.get();
@@ -150,17 +152,16 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         handler = new RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
         postCPV("메뉴 추천을 받으시겠습니까?");
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else {
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
@@ -179,11 +180,11 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 }
             }
         };
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                while (true){
-                    if(isCPVEnd){
+                while (true) {
+                    if (isCPVEnd) {
                         Message msg = handler.obtainMessage();
                         handler.sendMessage(msg);
                         isCPVEnd = false;
@@ -194,7 +195,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         }.start();
     }
 
-    public void permissionCheck(){
+    public void permissionCheck() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -202,15 +203,15 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         }
     }
 
-    void postWord(String word){
+    void postWord(String word) {
 //        showProgressDialog();
         final RecommendService recommendService = new RecommendService(this);
         recommendService.postWord(word);
     }
 
 
-    void init(){
-        age = getIntent().getIntExtra("age",20);
+    void init() {
+        age = getIntent().getIntExtra("age", 20);
         gender = getIntent().getStringExtra("gender");
 //        mButtonYes = findViewById(R.id.recommend_btn_yes);
 //        mButtonYes.setOnClickListener(new View.OnClickListener() {
@@ -240,10 +241,10 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     }
 
 
-    void postCPV(final String input){
+    void postCPV(final String input) {
 //        showProgressDialog();
         final RecommendService recommendService = new RecommendService(this);
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 recommendService.postCPV(input);
@@ -272,14 +273,14 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         try {
             f.createNewFile();
             OutputStream outputStream = new FileOutputStream(f);
-            while ((read =inputStream.read(bytes)) != -1) {
+            while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(f.getAbsolutePath());
             mediaPlayer.prepare();
             mediaPlayer.start();
-            while (mediaPlayer.isPlaying()){
+            while (mediaPlayer.isPlaying()) {
                 Log.d("로그", "루프");
             }
             inputStream.close();
@@ -300,8 +301,8 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     public void postWordPositiveSuccess() {
         hideProgressDialog();
         Intent intent = new Intent(RecommendActivity.this, RecommendYesActivity.class);
-        intent.putExtra("age",age);
-        intent.putExtra("gender",gender);
+        intent.putExtra("age", age);
+        intent.putExtra("gender", gender);
         startActivity(intent);
         finish();
     }
@@ -317,20 +318,20 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(mediaPlayer!=null){
-            try{
+        if (mediaPlayer != null) {
+            try {
                 mediaPlayer.release();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    void killMediaPlayer(){
-        if(mediaPlayer!=null){
-            try{
+    void killMediaPlayer() {
+        if (mediaPlayer != null) {
+            try {
                 mediaPlayer.release();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -354,33 +355,46 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
             case R.id.activity_main_iv_recording:
                 showCustomToast("dd");
 
-                if(isRecordingMode){
+                if (isRecordingMode) {
                     //녹음끄기
 //                    showCustomToast("dd");
                     Glide.with(mContext).load(R.drawable.ic_speak)
                             .into(mImageViewRecording);
                     isRecordingMode = false;
-                }
-                else{
+                } else {
                     //녹음켜기
 //                    showCustomToast("dd");
                     Glide.with(mContext).asGif()
                             .load(R.raw.gif_recoding)
                             .into(mImageViewRecording);
                     isRecordingMode = true;
-                    if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                    if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
                         Log.d("로그", "루프2");
                         mResult = "";
 //                        txtResult.setText("Connecting...");
                         naverRecognizer.recognize();
-                    }
-                    else {
+                    } else {
                         Log.d(TAG, "stop and wait Final Result");
                         naverRecognizer.getSpeechRecognizer().stop();
                     }
 
                 }
                 break;
+
+            case R.id.recommend_iv_yes:
+                Intent intent = new Intent(RecommendActivity.this, RecommendYesActivity.class);
+                intent.putExtra("age", age);
+                intent.putExtra("gender", gender);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.recommend_iv_no:
+                intent = new Intent(RecommendActivity.this, MenuListActivitiy.class);
+                startActivity(intent);
+                finish();
+                break;
+
         }
     }
 }

@@ -55,12 +55,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="45dp"
+                android:onClick="customOnClick"
                 android:src="@drawable/btn_yes" />
 
             <ImageView
                 android:id="@+id/recommend_iv_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/brn_no" />
         </LinearLayout>
 

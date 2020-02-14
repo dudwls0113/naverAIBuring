@@ -9,4 +9,9 @@ public interface RecommendYesView {
     void retrofitFailure(String message);
 
     void postRecommendSuccess(ArrayList<RecommendObject> arrayList);
+
+    void yes();
+
+    void no();
+
 }
