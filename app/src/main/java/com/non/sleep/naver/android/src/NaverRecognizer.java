@@ -50,7 +50,6 @@ public class NaverRecognizer implements SpeechRecognitionListener {
         System.out.println("핸들러3: " + mHandler.toString());
         Message msg = Message.obtain(mHandler, R.id.clientInactive);
         msg.sendToTarget();
-        mHandler.removeMessages(0);
     }
     @Override
     @WorkerThread

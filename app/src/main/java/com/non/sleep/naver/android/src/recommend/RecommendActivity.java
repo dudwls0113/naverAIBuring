@@ -286,8 +286,6 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         Intent intent = new Intent(RecommendActivity.this, RecommendYesActivity.class);
         intent.putExtra("age",age);
         intent.putExtra("gender",gender);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
@@ -322,6 +320,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     public void onStop() {
         super.onStop();
+        naverRecognizer.getSpeechRecognizer().release();
     }
 
     @Override

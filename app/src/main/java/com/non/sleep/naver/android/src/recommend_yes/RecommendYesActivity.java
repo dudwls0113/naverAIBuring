@@ -90,7 +90,7 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 //                txtResult.setText("Connected");
                 System.out.println("connected");
                 writer = new AudioWriterPCM(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NaverSpeechTest");
-                writer.open("Test2");
+                writer.open("Test");
                 break;
             case R.id.audioRecording:
                 writer.write((short[]) msg.obj);
@@ -174,6 +174,12 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
                 textToSpeech(age);
             }
         }.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        naverRecognizer.getSpeechRecognizer().release();
     }
 
     void textToSpeech(int age) {
