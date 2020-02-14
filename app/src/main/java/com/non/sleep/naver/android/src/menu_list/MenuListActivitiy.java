@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +23,7 @@ import com.non.sleep.naver.android.src.NaverRecognizer;
 import com.non.sleep.naver.android.src.menu_list.interfaces.MenuListView;
 import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
+import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -207,6 +209,8 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
     public void postWordConfirmName(ObjectResponse objectResponse) {
         hideProgressDialog();
         System.out.println("리스폰스 코드: 3");
+        Intent intent = new Intent(MenuListActivitiy.this, ShoppingActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -308,7 +312,32 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
     public void customOnClick(View view) {
         switch (view.getId()){
             case R.id.activity_main_iv_recording:
-
+                if(isRecordingMode){
+                    //녹음끄기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).load(R.drawable.ic_speak)
+                            .into(mImageViewRecording);
+                    isRecordingMode = false;
+                }
+                else {
+                    //녹음켜기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).asGif()
+                            .load(R.raw.gif_recoding)
+                            .into(mImageViewRecording);
+                    isRecordingMode = true;
+                    naverRecognizer.getSpeechRecognizer().initialize();
+                    if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                        Log.d("로그", "루프2");
+                        mResult = "";
+//                        txtResult.setText("Connecting...");
+                        naverRecognizer.recognize();
+                    } else {
+                        Log.d(TAG, "stop and wait Final Result");
+                        naverRecognizer.getSpeechRecognizer().stop();
+                    }
+                }
+                break;
         }
     }
 }

@@ -19,11 +19,11 @@ public class MenuListService {
 
     private final MenuListView mMenuListView;
 
-    MenuListService(MenuListView menuListView){
+    public MenuListService(MenuListView menuListView){
         mMenuListView = menuListView;
     }
 
-    void postWord(String word){
+    public void postWord(String word){
         JSONObject params = new JSONObject();
         try {
             params.put("word",word);
