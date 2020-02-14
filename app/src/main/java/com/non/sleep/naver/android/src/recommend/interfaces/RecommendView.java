@@ -14,4 +14,5 @@ public interface RecommendView {
 
     void postWordNegativeSuccess();
 
+
 }

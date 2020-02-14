@@ -17,7 +17,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/food_age"
@@ -32,6 +32,8 @@
             android:textStyle="bold" />
 
         <ImageView
+                android:id="@+id/iv_menu"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -55,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:src="@drawable/ic_text_select"/>
+            android:src="@drawable/ic_text_select" />
 
         <View
             android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.non.sleep.naver.android.src.recommend_yes;
 import android.util.Log;
 
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendRetrofitInterface;
+import com.non.sleep.naver.android.src.recommend.models.WordResponse;
 import com.non.sleep.naver.android.src.recommend_yes.interfaces.RecommendYesRetrofitInterface;
 import com.non.sleep.naver.android.src.recommend_yes.interfaces.RecommendYesView;
 import com.non.sleep.naver.android.src.recommend_yes.models.RecommendResponse;
@@ -22,11 +23,11 @@ public class RecommendYesService {
 
     private final RecommendYesView mRecommendYesView;
 
-    RecommendYesService(RecommendYesView recommendYesView){
+    RecommendYesService(RecommendYesView recommendYesView) {
         mRecommendYesView = recommendYesView;
     }
 
-    void postRecommend(int age, String gender){
+    void postRecommend(int age, String gender) {
         JSONObject params = new JSONObject();
         try {
             params.put("age", age);
@@ -40,14 +41,12 @@ public class RecommendYesService {
             @Override
             public void onResponse(Call<RecommendResponse> call, Response<RecommendResponse> response) {
                 final RecommendResponse recommendResponse = response.body();
-                if(recommendResponse==null){
+                if (recommendResponse == null) {
                     System.out.println("에러에러");
                     mRecommendYesView.retrofitFailure(null);
-                }
-                else if(recommendResponse.getCode()==100){
+                } else if (recommendResponse.getCode() == 100) {
                     mRecommendYesView.postRecommendSuccess(recommendResponse.getRecommendObjects());
-                }
-                else{
+                } else {
                     mRecommendYesView.retrofitFailure(recommendResponse.getMessage());
                 }
             }
@@ -56,6 +55,37 @@ public class RecommendYesService {
             public void onFailure(Call<RecommendResponse> call, Throwable t) {
                 mRecommendYesView.retrofitFailure(null);
                 Log.d("error", t.toString());
+            }
+        });
+    }
+
+    void postWord(String word) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("word", word);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final RecommendRetrofitInterface recommendRetrofitInterface = getRetrofit().create(RecommendRetrofitInterface.class);
+        recommendRetrofitInterface.postWord(RequestBody.create(params.toString(), MEDIA_TYPE_JSON)).enqueue(new Callback<WordResponse>() {
+            @Override
+            public void onResponse(Call<WordResponse> call, Response<WordResponse> response) {
+                final WordResponse wordResponse = response.body();
+                if (wordResponse == null) {
+                    mRecommendYesView.retrofitFailure(null);
+                } else if (wordResponse.getCode() == 1) {
+                    mRecommendYesView.yes();
+                } else if (wordResponse.getCode() == 2) {
+                    mRecommendYesView.no();
+                } else {
+                    mRecommendYesView.retrofitFailure(wordResponse.getMessage());
+                }
+        }
+
+            @Override
+            public void onFailure(Call<WordResponse> call, Throwable t) {
+                mRecommendYesView.retrofitFailure(null);
             }
         });
     }
