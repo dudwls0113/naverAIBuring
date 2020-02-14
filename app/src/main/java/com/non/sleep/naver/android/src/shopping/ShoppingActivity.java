@@ -228,7 +228,6 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
         hideProgressDialog();
         Intent intent = new Intent(this, PayActivity.class);
         startActivity(intent);
-
         System.out.println("리스폰스 코드: 1");
     }
 
