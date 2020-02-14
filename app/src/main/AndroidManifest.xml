@@ -83,7 +83,7 @@
         </activity> <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
         <activity android:name=".src.facedetection.FaceDetectionActivity">
-            
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
