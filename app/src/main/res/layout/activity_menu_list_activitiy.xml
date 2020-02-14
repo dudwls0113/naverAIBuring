@@ -30,7 +30,7 @@
                 android:textColor="#ff3400"
                 android:textSize="35sp"
                 android:textStyle="bold"
-                tools:text="인기" />
+                android:text="인기" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                tools:text="밥" />
+                android:text="밥" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                tools:text="면" />
+                android:text="면" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                tools:text="사이드" />
+                android:text="사이드" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                tools:text="기타" />
+                android:text="기타" />
 
         </LinearLayout>
 

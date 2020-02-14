@@ -26,6 +26,7 @@ import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.AudioWriterPCM;
 import com.non.sleep.naver.android.src.BaseActivity;
 import com.non.sleep.naver.android.src.NaverRecognizer;
+import com.non.sleep.naver.android.src.menu_list.MenuListActivitiy;
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendView;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
 
@@ -148,34 +149,48 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         init();
         handler = new RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
-//        final Handler handler = new Handler(){
-//            @Override
-//            public void handleMessage(@NonNull Message msg) {
-//                if(!naverRecognizer.getSpeechRecognizer().isRunning()) {
-//                    Log.d("로그", "루프2");
-//                    mResult = "";
-//                    txtResult.setText("Connecting...");
-//                    naverRecognizer.recognize();
-//                }
-//                else {
-//                    Log.d(TAG, "stop and wait Final Result");
-//                    naverRecognizer.getSpeechRecognizer().stop();
-//                }
-//            }
-//        };
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                while (true){
-//                    if(isCPVEnd){
-//                        Message msg = handler.obtainMessage();
-//                        handler.sendMessage(msg);
-//                        isCPVEnd = false;
-//                        break;
-//                    }
-//                }
-//            }
-//        }.start();
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                if(isRecordingMode){
+                    //녹음끄기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).load(R.drawable.ic_speak)
+                            .into(mImageViewRecording);
+                    isRecordingMode = false;
+                }
+                else {
+                    //녹음켜기
+//                    showCustomToast("dd");
+                    Glide.with(mContext).asGif()
+                            .load(R.raw.gif_recoding)
+                            .into(mImageViewRecording);
+                    isRecordingMode = true;
+                    if (!naverRecognizer.getSpeechRecognizer().isRunning()) {
+                        Log.d("로그", "루프2");
+                        mResult = "";
+//                        txtResult.setText("Connecting...");
+                        naverRecognizer.recognize();
+                    } else {
+                        Log.d(TAG, "stop and wait Final Result");
+                        naverRecognizer.getSpeechRecognizer().stop();
+                    }
+                }
+            }
+        };
+        new Thread(){
+            @Override
+            public void run() {
+                while (true){
+                    if(isCPVEnd){
+                        Message msg = handler.obtainMessage();
+                        handler.sendMessage(msg);
+                        isCPVEnd = false;
+                        break;
+                    }
+                }
+            }
+        }.start();
     }
 
     public void permissionCheck(){
@@ -268,7 +283,8 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 Log.d("로그", "루프");
             }
             inputStream.close();
-//            isCPVEnd = true;
+            isCPVEnd = true;
+//            isRecordingMode = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -292,7 +308,10 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
 
     @Override
     public void postWordNegativeSuccess() {
-
+        hideProgressDialog();
+        Intent intent = new Intent(RecommendActivity.this, MenuListActivitiy.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

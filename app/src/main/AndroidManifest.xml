@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".src.recommand_60.Recommend60Activity"></activity>
+        <activity android:name=".src.recommand_60.Recommend60Activity"/>
         <activity android:name=".src.menu_list.MenuListActivitiy" />
         <activity android:name=".src.shopping.ShoppingActivity" />
         <activity android:name=".src.start.StartActivity">
