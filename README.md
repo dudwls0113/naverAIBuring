@@ -10,6 +10,7 @@
 1. 최근 다양한 경로로 키오스크 도입이 증가하고 있는 상황 <br>
 2. 이에 따라 사용자에게 좀 더 편리한 키오스크 서비스를 제공하기 위해 개발<br>
 
+<div><img  src="https://user-images.githubusercontent.com/47071342/74513464-f5045780-4f4d-11ea-9286-bf9b6229a691.JPG"></div>
 <h3>주요 기능</h3>
 1. Android에서 제공하는 Camera Facedetecion을 이용한 사용자 얼굴을 실시간 감지<br>
 2. CFR를 사용하여 얼굴에 대한 특징파악<br>
