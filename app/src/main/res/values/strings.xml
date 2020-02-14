@@ -8,4 +8,5 @@
 
     <string name="str_start">Start</string>
     <string name="str_stop">Stop</string>
+    <string name="title_activity_pay_finish">PayFinishActivity</string>
 </resources>

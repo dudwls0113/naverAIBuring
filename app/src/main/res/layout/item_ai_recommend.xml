@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_border_img"
     tools:context=".src.recommend.RecommendActivity">
 
     <ImageView
@@ -18,6 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="26.7sp"
-        android:textColor="#ffffff"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="30dp"
+        android:text="test"
+        android:textColor="#000000"
         android:textSize="69.3sp" />
 </FrameLayout>

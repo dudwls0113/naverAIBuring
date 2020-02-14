@@ -277,7 +277,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 //        }
 //    }
 
-//    void testApi(String input){
+//    void textToSpeech(String input){
 //        String clientId = "g0fd605ajk";
 //        String clientSecret = "ZgiGkHGhY3kNc5ulmYD70rkKAM3FeGnONBZpjN63";
 //        try {

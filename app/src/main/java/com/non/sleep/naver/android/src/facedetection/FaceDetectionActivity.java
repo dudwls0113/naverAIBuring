@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -22,6 +23,18 @@ import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.facedetection.cam.FaceDetectionCamera;
 import com.non.sleep.naver.android.src.facedetection.cam.FrontCameraRetriever;
 import com.non.sleep.naver.android.src.recommend.RecommendActivity;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Date;
 
 /**
  * Don't forget to add the permissions to the AndroidManifest.xml!
@@ -45,6 +58,7 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
     public static int count=0;
     private TextView tv;
 
+    private MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,5 +148,80 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
         finish();
     }
 
+    @Override
+    public void textToSpeech() {
+        String clientId = "g0fd605ajk";
+        String clientSecret = "ZgiGkHGhY3kNc5ulmYD70rkKAM3FeGnONBZpjN63";
+        try {
+            String text = URLEncoder.encode("안녕하세요.", "UTF-8"); // 13자
+            String apiURL = "https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts";
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
+            con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
+            // post request
+            String postParams = "speaker=nara&volume=0&speed=0&pitch=0&emotion=0&format=mp3&text=" + text;
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(postParams);
+            wr.flush();
+            wr.close();
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if(responseCode==200) { // 정상 호출
+                System.out.println("성공");
+                InputStream is = con.getInputStream();
+                System.out.println("성공2");
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                // 랜덤한 이름으로 mp3 파일 생성
+                String tempname = Long.valueOf(new Date().getTime()).toString();
+                File f = new File(getFilesDir(), tempname + ".mp3");
+                System.out.println("file path: " + f.getAbsolutePath());
+                f.createNewFile();
+                System.out.println("성공3");
+                OutputStream outputStream = new FileOutputStream(f);
+                System.out.println("성공4");
+                while ((read =is.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+                System.out.println("성공5");
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(f.getAbsolutePath());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                is.close();
+                System.out.println("성공6");
+            } else {  // 오류 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = br.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                br.close();
+                System.out.println("리스폰스 에러: " + response.toString());
+            }
+        } catch (Exception e) {
+            System.out.println("error: " + e);
+        }
 
+    }
+
+    void killMediaPlayer(){
+        if(mediaPlayer!=null){
+            try{
+                mediaPlayer.release();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        killMediaPlayer();
+    }
 }

@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.media.FaceDetector;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -20,10 +21,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -31,6 +34,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Date;
 
 /**
@@ -42,6 +46,8 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
     private final Camera camera;
 
     private Listener listener;
+
+
 
     public FaceDetectionCamera(Camera camera) {
         this.camera = camera;
@@ -125,7 +131,18 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         } catch (Exception e) {
             e.printStackTrace();
         }
+        new Thread(){
+            @Override
+            public void run() {
+                listener.textToSpeech();
+            }
+        }.start();
 
+        try {
+            Thread.sleep(1500);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         new Thread(){
             @Override
             public void run() {
@@ -134,6 +151,8 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         }.start();
     }
     // save bitmap -> image
+
+
 
     void testApi(String path){
 //        StringBuffer reqStr = new StringBuffer();
@@ -220,6 +239,8 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
         }
     }
 
+
+
     @Override
     public void onFaceDetected() {
         listener.onFaceDetected();
@@ -247,6 +268,7 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
 
         void otherNextActivity();
 
+        void textToSpeech();
     }
 
 

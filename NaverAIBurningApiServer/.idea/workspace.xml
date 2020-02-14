@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5f761fe-c68a-4066-a6e6-4d305d43fcf7" name="Default Changelist" comment="" />
+    <list default="true" id="e5f761fe-c68a-4066-a6e6-4d305d43fcf7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../app/src/main/java/com/non/sleep/naver/android/src/menu_list/MenuListActivitiy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/src/main/res/layout/activity_menu_list_activitiy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +40,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="true" current-in-tab="true">
+      <file pinned="true" current-in-tab="false">
         <entry file="remoteDeploymentFS://&lt;209262bb-8a50-4684-a8e3-cd6f36bd08f4&gt;/api-server/pdos/NaverPdo.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="464">
@@ -66,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="true" current-in-tab="false">
+      <file pinned="true" current-in-tab="true">
         <entry file="remoteDeploymentFS://&lt;209262bb-8a50-4684-a8e3-cd6f36bd08f4&gt;/api-server/controllers/NaverController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
+            <state relative-caret-position="730">
               <caret line="59" column="40" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="40" />
             </state>
           </provider>
@@ -114,8 +118,8 @@
       <find>getWord</find>
       <find>getMenuArr</find>
       <find>getMenuInfoWithPercentage</find>
-      <find>echo</find>
       <find>getRecommend</find>
+      <find>echo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,6 +161,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
@@ -194,12 +199,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1581503804561</updated>
-      <workItem from="1581503806489" duration="27048000" />
+      <workItem from="1581503806489" duration="27317000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27048000" />
+    <option name="totallyTimeSpent" value="27317000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
