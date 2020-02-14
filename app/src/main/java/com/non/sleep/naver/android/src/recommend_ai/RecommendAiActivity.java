@@ -75,7 +75,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
 
     private RecyclerView mRV;
     private ArrayList<ObjectResponse> arrayList = new ArrayList<>();
-    public static TextView mTvName1, mTvName2, mTvName3, mTvName4, mTvWon1, mTvWon2, mTvWon3, mTvWon4, mTvType;
+    public static TextView mTvName1, mTvName2, mTvName3, mTvName4, mTvWon1, mTvWon2, mTvWon3, mTvWon4, mTvType, mTvTitle;
     private RecommendAiAdapter adapter;
     private boolean isCPVEnd = false;
 
@@ -341,6 +341,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     @Override
     public void postWordConfirmCategory(ArrayList<ObjectResponse> arrayList, String word, final String message) {
         System.out.println(message);
+        mTvType.setText(message);
         new Thread(){
             @Override
             public void run() {

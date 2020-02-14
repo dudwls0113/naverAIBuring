@@ -51,6 +51,15 @@ public class MenuListService {
                 else if(commonResponse.getCode()==4){ // 메뉴카테고리
                     mMenuListView.postWordConfirmCategory(commonResponse.getObjectResponses(), word);
                 }
+//                else if(commonResponse.getCode()==12){ // 현금
+//                    mMenuListView.postWordCashSuccess();
+//                }
+//                else if(commonResponse.getCode()==13){
+//                    mMenuListView.postWordCardSuccess();
+//                }
+                else{
+                    mMenuListView.retrofitFailure(commonResponse.getMessage());
+                }
             }
 
             @Override
