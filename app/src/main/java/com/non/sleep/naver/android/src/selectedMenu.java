@@ -17,7 +17,7 @@ public class selectedMenu {
     }
 
     public int getPrice() {
-        return price;
+        return 1000;
     }
 
     public selectedMenu(String name, int price) {

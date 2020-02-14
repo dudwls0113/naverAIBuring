@@ -35,7 +35,7 @@ public class RecommendAiAdapter extends RecyclerView.Adapter<RecommendAiAdapter.
     }
 
     public interface RecommendListener{
-        void itemClick(int pos);
+        void itemClick(int pos, String name);
     }
 
     public void addItem(String url, String title, int price) {
@@ -156,7 +156,7 @@ public class RecommendAiAdapter extends RecyclerView.Adapter<RecommendAiAdapter.
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mRecommendListener.itemClick(getAdapterPosition());
+                    mRecommendListener.itemClick(getAdapterPosition(), mData.get(getAdapterPosition()).getName());
                 }
             });
             title = itemView.findViewById(R.id.recommend_ai_item_tv) ;

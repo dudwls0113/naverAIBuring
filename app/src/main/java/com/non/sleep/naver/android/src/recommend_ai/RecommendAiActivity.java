@@ -33,6 +33,7 @@ import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
 import com.non.sleep.naver.android.src.recommend_ai.interfaces.interfaces.RecommendAiView;
 import com.non.sleep.naver.android.src.recommend_ai.models.ObjectResponse2;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
+import com.non.sleep.naver.android.src.selectedMenu;
 import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
 import java.io.BufferedReader;
@@ -50,6 +51,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.non.sleep.naver.android.src.ApplicationClass.arrayListSelectedMenu;
 
 public class RecommendAiActivity extends BaseActivity implements RecommendAiView {
 
@@ -240,8 +243,9 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
         mRV.setLayoutManager(mLayoutManager);
         adapter = new RecommendAiAdapter(mContext, new RecommendAiAdapter.RecommendListener() {
             @Override
-            public void itemClick(int pos) {
+            public void itemClick(int pos, String name) {
                 killMediaPlayer();
+                arrayListSelectedMenu.add(new selectedMenu(name, 1000));
                 Intent intent = new Intent(RecommendAiActivity.this, ShoppingActivity.class);
                 startActivity(intent);
             }
@@ -329,6 +333,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
 
     @Override
     public void postWordConfirmName(ObjectResponse objectResponse) {
+        arrayListSelectedMenu.add(new selectedMenu(objectResponse.getName(), 1000));
         Intent intent = new Intent(RecommendAiActivity.this, ShoppingActivity.class);
         startActivity(intent);
     }
