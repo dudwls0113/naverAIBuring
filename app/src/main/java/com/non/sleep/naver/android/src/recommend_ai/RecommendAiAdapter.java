@@ -7,24 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.non.sleep.naver.android.R;
-import com.non.sleep.naver.android.src.recommend_ai.models.ObjectResponse;
-import com.non.sleep.naver.android.src.recommend_ai.models.WordResponse;
+import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
+import com.non.sleep.naver.android.src.recommend_ai.models.ObjectResponse2;
 
 import java.util.ArrayList;
 
 public class RecommendAiAdapter extends RecyclerView.Adapter<RecommendAiAdapter.ViewHolder> {
     public ArrayList<ObjectResponse> mData = null ;
+    Context mContext;
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
     RecommendAiAdapter(ArrayList<ObjectResponse> list) {
         mData = list ;
     }
-    RecommendAiAdapter(){ mData = new ArrayList<>();}
+    RecommendAiAdapter(Context context){
+        mData = new ArrayList<>();
+        mContext = context;
+    }
 
     public void addItem(String url, String title, int price) {
         ObjectResponse item = new ObjectResponse();
@@ -53,6 +57,8 @@ public class RecommendAiAdapter extends RecyclerView.Adapter<RecommendAiAdapter.
 
         Log.i("SVasdvdsa", mData.get(position).getName());
         holder.title.setText(item.getName());
+
+        Glide.with(mContext).load(item.getImageUrl()).into(holder.iv);
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override

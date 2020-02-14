@@ -13,10 +13,10 @@ public class WordResponse {
     String message;
 
     @SerializedName("object")
-    ObjectResponse object;
+    ObjectResponse2 object;
 
     @SerializedName("arr")
-    ArrayList<ObjectResponse> objectResponses;
+    ArrayList<ObjectResponse2> objectRespons2s;
 
     public int getCode() {
         return code;
@@ -26,11 +26,11 @@ public class WordResponse {
         return message;
     }
 
-    public ObjectResponse getObject() {
+    public ObjectResponse2 getObject() {
         return object;
     }
 
-    public ArrayList<ObjectResponse> getObjectResponses() {
-        return objectResponses;
+    public ArrayList<ObjectResponse2> getObjectRespons2s() {
+        return objectRespons2s;
     }
 }
