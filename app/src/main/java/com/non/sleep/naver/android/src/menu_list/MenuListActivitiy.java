@@ -243,6 +243,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
         System.out.println("리스폰스 코드: 3");
         Intent intent = new Intent(MenuListActivitiy.this, ShoppingActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -252,6 +253,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
         Intent intent = new Intent(MenuListActivitiy.this, RecommendAiActivity.class);
         intent.putExtra("type", word);
         startActivity(intent);
+        finish();
     }
 
     private static class RecognitionHandler extends Handler {

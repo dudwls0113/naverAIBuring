@@ -33,6 +33,7 @@ import com.non.sleep.naver.android.src.recommend.models.ObjectResponse;
 import com.non.sleep.naver.android.src.recommend_ai.interfaces.interfaces.RecommendAiView;
 import com.non.sleep.naver.android.src.recommend_ai.models.ObjectResponse2;
 import com.non.sleep.naver.android.src.recommend_yes.RecommendYesActivity;
+import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -70,6 +71,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     boolean isRecordingMode = false;
 
     private RecyclerView mRV;
+    private ArrayList<ObjectResponse> arrayList = new ArrayList<>();
     public static TextView mTvName1, mTvName2, mTvName3, mTvName4, mTvWon1, mTvWon2, mTvWon3, mTvWon4, mTvType;
     private RecommendAiAdapter adapter;
     private boolean isCPVEnd = false;
@@ -236,7 +238,14 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
             Log.i("SDVSVD", "SDVSVD");
         }
         mRV.setLayoutManager(mLayoutManager);
-        adapter = new RecommendAiAdapter(mContext);
+        adapter = new RecommendAiAdapter(mContext, new RecommendAiAdapter.RecommendListener() {
+            @Override
+            public void itemClick(int pos) {
+                killMediaPlayer();
+                Intent intent = new Intent(RecommendAiActivity.this, ShoppingActivity.class);
+                startActivity(intent);
+            }
+        });
         mRV.setAdapter(adapter);
 
 //        postWorldListFun(20, "F");
@@ -320,7 +329,8 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
 
     @Override
     public void postWordConfirmName(ObjectResponse objectResponse) {
-
+        Intent intent = new Intent(RecommendAiActivity.this, ShoppingActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -332,6 +342,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
                 textToSpeech(message);
             }
         }.start();
+        this.arrayList = arrayList;
         adapter.mData = arrayList;
         adapter.notifyDataSetChanged();
     }
@@ -342,6 +353,9 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
         adapter.mData = list;
         adapter.notifyDataSetChanged();
     }
+
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
