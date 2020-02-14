@@ -32,7 +32,7 @@
             android:textStyle="bold" />
 
         <ImageView
-                android:id="@+id/iv_menu"
+            android:id="@+id/iv_menu"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,13 +71,17 @@
             android:layout_marginBottom="80dp">
 
             <ImageView
+                android:id="@+id/recommend_iv_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/btn_yes" />
 
             <ImageView
+                android:id="@+id/recommend_iv_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/brn_no" />
 
         </LinearLayout>

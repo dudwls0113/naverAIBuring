@@ -19,11 +19,11 @@ public class MenuListService {
 
     private final MenuListView mMenuListView;
 
-    MenuListService(MenuListView menuListView){
+    public MenuListService(MenuListView menuListView){
         mMenuListView = menuListView;
     }
 
-    void postWord(String word){
+    public void postWord(String word){
         JSONObject params = new JSONObject();
         try {
             params.put("word",word);
@@ -49,7 +49,7 @@ public class MenuListService {
                     mMenuListView.postWordConfirmName(commonResponse.getObject());
                 }
                 else if(commonResponse.getCode()==4){ // 메뉴카테고리
-                    mMenuListView.postWordConfirmCategory(commonResponse.getObjectResponses());
+                    mMenuListView.postWordConfirmCategory(commonResponse.getObjectResponses(), commonResponse.getMessage());
                 }
             }
 

@@ -28,6 +28,7 @@ import com.non.sleep.naver.android.src.recommend.RecommendActivity;
 import com.non.sleep.naver.android.src.recommend.RecommendService;
 import com.non.sleep.naver.android.src.recommend_yes.interfaces.RecommendYesView;
 import com.non.sleep.naver.android.src.recommend_yes.models.RecommendObject;
+import com.non.sleep.naver.android.src.selectedMenu;
 import com.non.sleep.naver.android.src.shopping.ShoppingActivity;
 
 import java.io.BufferedReader;
@@ -44,6 +45,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.non.sleep.naver.android.src.ApplicationClass.arrayListSelectedMenu;
 
 public class RecommendYesActivity extends BaseActivity implements RecommendYesView {
 
@@ -176,8 +179,9 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 //                txtResult.setText(mResult);
 //                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
-                System.out.println("결과: " + results.get(0));
+//                System.out.println("결과: " + results.get(0));
                 postWord(results.get(0));
+                Log.d("메세지 post word", results.get(0));
 //                postWord(results.get(0));
 //                cpvTest(results.get(0));
 //                new Thread(){
@@ -380,10 +384,26 @@ public class RecommendYesActivity extends BaseActivity implements RecommendYesVi
 
                 }
                 break;
+
+            case R.id.recommend_iv_yes:
+                Intent intent = new Intent(this, ShoppingActivity.class);
+                intent.putExtra("age", age);
+                intent.putExtra("gender", gender);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.recommend_iv_no:
+                intent = new Intent(this, MenuListActivitiy.class);
+                startActivity(intent);
+                finish();
+                break;
         }
     }
 
     void yesClick() {
+        arrayListSelectedMenu.add(new selectedMenu(name, price));
+
         Intent intent = new Intent(this, ShoppingActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("price", price);

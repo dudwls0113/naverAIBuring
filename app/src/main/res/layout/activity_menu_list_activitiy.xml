@@ -27,50 +27,50 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="13.5sp"
+                android:text="인기"
                 android:textColor="#ff3400"
                 android:textSize="35sp"
-                android:textStyle="bold"
-                android:text="인기" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="11.5sp"
+                android:text="밥"
                 android:textColor="#000000"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:text="밥" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="11.5sp"
+                android:text="면"
                 android:textColor="#000000"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:text="면" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="11.5sp"
+                android:text="사이드"
                 android:textColor="#000000"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:text="사이드" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="11.5sp"
+                android:text="기타"
                 android:textColor="#000000"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:text="기타" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -81,13 +81,17 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/iv_gimbap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/iv_gimbap" />
 
             <ImageView
+                android:id="@+id/iv_gimchi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/iv_gimch" />
         </LinearLayout>
 
@@ -97,13 +101,17 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/iv_udong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/iv_udong" />
 
             <ImageView
+                android:id="@+id/iv_bibimbap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/iv_bibimbap" />
         </LinearLayout>
 
