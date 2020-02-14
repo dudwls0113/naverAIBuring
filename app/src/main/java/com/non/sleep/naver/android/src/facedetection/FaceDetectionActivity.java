@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.facedetection.cam.FaceDetectionCamera;
 import com.non.sleep.naver.android.src.facedetection.cam.FrontCameraRetriever;
+import com.non.sleep.naver.android.src.menu_list.MenuListActivitiy;
 import com.non.sleep.naver.android.src.recommend.RecommendActivity;
 
 import java.io.BufferedReader;
@@ -147,7 +148,7 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
 
     @Override
     public void otherNextActivity() {
-        startActivity(new Intent(FaceDetectionActivity.this, RecommendActivity.class));
+        startActivity(new Intent(FaceDetectionActivity.this, MenuListActivitiy.class));
         finish();
     }
 

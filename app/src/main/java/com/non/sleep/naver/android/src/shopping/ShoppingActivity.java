@@ -91,7 +91,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
                     similarWord.add(result);
                 }
                 mResult = strBuf.toString();
-                showCustomToast(mResult);
+//                showCustomToast(mResult);
 //                txtResult.setText(mResult);
 //                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
@@ -247,7 +247,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
     @Override
     public void retrofitFailure(String message) {
         hideProgressDialog();
-        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : "알아듣지 못했어요. 다시 한번 말해주세요");
+        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : "죄송합니다. 다시 한 번 말해주세요.");
     }
 
     @Override

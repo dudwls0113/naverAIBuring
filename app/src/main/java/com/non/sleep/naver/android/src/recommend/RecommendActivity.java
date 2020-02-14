@@ -90,7 +90,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                     similarWord.add(result);
                 }
                 mResult = strBuf.toString();
-                showCustomToast(mResult);
+//                showCustomToast(mResult);
 //                txtResult.setText(mResult);
 //                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
@@ -257,7 +257,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     public void cpvFailure(String message) {
         hideProgressDialog();
         Looper.prepare();
-        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : "죄송합니다. 다시 한 번 말해주세요.");
         Looper.loop();
     }
 
@@ -294,7 +294,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     public void retrofitFailure(String message) {
         hideProgressDialog();
-        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : "죄송합니다. 다시 한 번 말해주세요.");
     }
 
     @Override
@@ -353,7 +353,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     public void customOnClick(final View view) {
         switch (view.getId()) {
             case R.id.activity_main_iv_recording:
-                showCustomToast("dd");
+//                showCustomToast("dd");
 
                 if (isRecordingMode) {
                     //녹음끄기
