@@ -57,6 +57,7 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
     public static boolean isCapture;
     public static int count=0;
     private TextView tv;
+
     private MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

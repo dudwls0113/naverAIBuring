@@ -133,13 +133,17 @@
             android:layout_marginBottom="130dp">
 
             <ImageView
+                android:id="@+id/shopping_yes_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/btn_yes" />
 
             <ImageView
+                android:id="@+id/shopping_no_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="customOnClick"
                 android:src="@drawable/brn_no" />
 
         </LinearLayout>
