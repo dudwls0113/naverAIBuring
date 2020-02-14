@@ -149,6 +149,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         init();
         handler = new RecognitionHandler(this);
         naverRecognizer = new NaverRecognizer(this, handler, CLIENT_ID);
+        postCPV("메뉴 추천을 받으시겠습니까?");
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -228,7 +229,6 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     protected void onResume() {
         super.onResume();
-        postCPV("메뉴 추천을 받으시겠습니까?");
         mResult = "";
 //        txtResult.setText("");
     }

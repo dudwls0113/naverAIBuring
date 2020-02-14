@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
     tools:context=".src.recommend.RecommendActivity">
 
     <ImageView
@@ -20,7 +20,6 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="22dp"
         android:layout_marginLeft="30dp"
-        android:text="test"
         android:textColor="#000000"
         android:textSize="69.3sp" />
 </FrameLayout>
