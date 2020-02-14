@@ -58,32 +58,60 @@ public class RecommendAiAdapter extends RecyclerView.Adapter<RecommendAiAdapter.
             @Override
             public void onClick(View view) {
                 if(item.select == true) {
-                    if(mData.get(position) == null) {
-                        return;
-                    }
-                    if(RecommendAiActivity.won>0) {
-                        if(RecommendAiActivity.count ==1) {
-                            RecommendAiActivity.mTvName1.setText("");
-                            RecommendAiActivity.mTvWon1.setText("");
-                        }
-                        else if(RecommendAiActivity.count ==2) {
-                            RecommendAiActivity.mTvName2.setText("");
-                            RecommendAiActivity.mTvWon2.setText("");
-                        }
-                        else if(RecommendAiActivity.count ==3) {
-                            RecommendAiActivity.mTvName3.setText("");
-                            RecommendAiActivity.mTvWon3.setText("");
-                        }
-                        else if(RecommendAiActivity.count ==4) {
-                            RecommendAiActivity.mTvName4.setText("");
-                            RecommendAiActivity.mTvWon4.setText("");
-                        }
-                        RecommendAiActivity.won -= item.getPrice();
-                        RecommendAiActivity.mTvTotalPay.setText(String.valueOf(RecommendAiActivity.won) + "원");
-                        RecommendAiActivity.count--;
-                    }
+//                    if(mData.get(position) == null) {
+//                        return;
+//                    }
+//                    if(RecommendAiActivity.won>0) {
+//                        if(RecommendAiActivity.count ==1) {
+//                            RecommendAiActivity.mTvName1.setText("");
+//                            RecommendAiActivity.mTvWon1.setText("");
+//                        }
+//                        else if(RecommendAiActivity.count ==2) {
+//                            RecommendAiActivity.mTvName2.setText("");
+//                            RecommendAiActivity.mTvWon2.setText("");
+//                        }
+//                        else if(RecommendAiActivity.count ==3) {
+//                            RecommendAiActivity.mTvName3.setText("");
+//                            RecommendAiActivity.mTvWon3.setText("");
+//                        }
+//                        else if(RecommendAiActivity.count ==4) {
+//                            RecommendAiActivity.mTvName4.setText("");
+//                            RecommendAiActivity.mTvWon4.setText("");
+//                        }
+//                        RecommendAiActivity.won -= item.getPrice();
+//                        RecommendAiActivity.mTvTotalPay.setText(String.valueOf(RecommendAiActivity.won) + "원");
+//                        RecommendAiActivity.count--;
+//                    }
                 }
-
+                else {
+                    if(RecommendAiActivity.count ==0) {
+                        RecommendAiActivity.mTvName1.setText(mData.get(position).getName());
+                        if (mData.get(position) != null) {
+                            RecommendAiActivity.mTvWon1.setText(String.valueOf(mData.get(position).getPrice()));
+                        }
+                    }
+                    else if(RecommendAiActivity.count ==1) {
+                        RecommendAiActivity.mTvName2.setText(mData.get(position).getName());
+                        if (mData.get(position) != null) {
+                            RecommendAiActivity.mTvWon2.setText(String.valueOf(mData.get(position).getPrice()));
+                        }
+                    }
+                    else if(RecommendAiActivity.count ==2) {
+                        RecommendAiActivity.mTvName3.setText(mData.get(position).getName());
+                        if (mData.get(position) != null) {
+                            RecommendAiActivity.mTvWon3.setText(String.valueOf(mData.get(position).getPrice()));
+                        }
+                    }
+                    else if(RecommendAiActivity.count ==3) {
+                        RecommendAiActivity.mTvName4.setText(mData.get(position).getName());
+                        if (mData.get(position) != null) {
+                            RecommendAiActivity.mTvWon4.setText(String.valueOf(mData.get(position).getPrice()));
+                        }
+                    }
+                    RecommendAiActivity.count++;
+                    RecommendAiActivity.won += item.getPrice();
+                    RecommendAiActivity.mTvTotalPay.setText(String.valueOf(RecommendAiActivity.won) + "원");
+                }
                 item.select = !item.select;
             }
         });

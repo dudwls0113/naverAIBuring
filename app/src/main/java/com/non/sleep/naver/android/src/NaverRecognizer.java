@@ -20,11 +20,15 @@ public class NaverRecognizer implements SpeechRecognitionListener {
     private Handler mHandler;
     private SpeechRecognizer mRecognizer;
     public NaverRecognizer(Context context, Handler handler, String clientId) {
+//        handler.removeMessages(0);
+        System.out.println("핸들러: " + handler.toString());
         this.mHandler = handler;
+        System.out.println("1핸들러: " + mHandler.toString());
         try {
             mRecognizer = new SpeechRecognizer(context, clientId);
         } catch (SpeechRecognitionException e) {
             e.printStackTrace();
+            System.out.println("naver에러2: " + e.toString());
         }
         mRecognizer.setSpeechRecognitionListener(this);
     }
@@ -34,15 +38,19 @@ public class NaverRecognizer implements SpeechRecognitionListener {
     public void recognize() {
         try {
             mRecognizer.recognize(new SpeechConfig(SpeechConfig.LanguageType.KOREAN, SpeechConfig.EndPointDetectType.AUTO));
+            System.out.println("핸들러2: " + mHandler.toString());
         } catch (SpeechRecognitionException e) {
             e.printStackTrace();
+            System.out.println("naver에러: " + e.toString());
         }
     }
     @Override
     @WorkerThread
     public void onInactive() {
+        System.out.println("핸들러3: " + mHandler.toString());
         Message msg = Message.obtain(mHandler, R.id.clientInactive);
         msg.sendToTarget();
+        mHandler.removeMessages(0);
     }
     @Override
     @WorkerThread

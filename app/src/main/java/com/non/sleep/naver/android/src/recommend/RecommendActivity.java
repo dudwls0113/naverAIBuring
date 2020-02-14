@@ -58,6 +58,9 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     private ImageView mImageViewRecording;
     boolean isRecordingMode = false;
 
+    private int age;
+    private String gender;
+
     private boolean isCPVEnd = false;
 
     private void handleMessage(Message msg) {
@@ -88,7 +91,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
                 mResult = strBuf.toString();
                 showCustomToast(mResult);
 //                txtResult.setText(mResult);
-                postCPV(mResult);
+//                postCPV(mResult);
 //                postTest(edtTest.getText().toString(), similarWord);
                 System.out.println("결과: " + results.get(0));
                 postWord(results.get(0));
@@ -121,7 +124,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
         }
     }
 
-    static class RecognitionHandler extends Handler {
+    private static class RecognitionHandler extends Handler {
         private final WeakReference<RecommendActivity> mActivity;
         RecognitionHandler(RecommendActivity activity) {
             mActivity = new WeakReference<RecommendActivity>(activity);
@@ -184,13 +187,15 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     }
 
     void postWord(String word){
-        showProgressDialog();
+//        showProgressDialog();
         final RecommendService recommendService = new RecommendService(this);
         recommendService.postWord(word);
     }
 
 
     void init(){
+        age = getIntent().getIntExtra("age",20);
+        gender = getIntent().getStringExtra("gender");
 //        mButtonYes = findViewById(R.id.recommend_btn_yes);
 //        mButtonYes.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -279,6 +284,10 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     public void postWordPositiveSuccess() {
         hideProgressDialog();
         Intent intent = new Intent(RecommendActivity.this, RecommendYesActivity.class);
+        intent.putExtra("age",age);
+        intent.putExtra("gender",gender);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
@@ -313,15 +322,13 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
     @Override
     public void onStop() {
         super.onStop();
-        if (naverRecognizer.getSpeechRecognizer().isRunning()){
-            naverRecognizer.getSpeechRecognizer().stop();
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         killMediaPlayer();
+//        naverRecognizer.getSpeechRecognizer().release();
     }
 
     public void customOnClick(final View view) {

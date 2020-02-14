@@ -28,6 +28,8 @@ import com.non.sleep.naver.android.R;
 import com.non.sleep.naver.android.src.AudioWriterPCM;
 import com.non.sleep.naver.android.src.BaseActivity;
 import com.non.sleep.naver.android.src.NaverRecognizer;
+import com.non.sleep.naver.android.src.menu_list.MenuListActivitiy;
+import com.non.sleep.naver.android.src.recommend.RecommendActivity;
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendRetrofitInterface;
 import com.non.sleep.naver.android.src.recommend.interfaces.RecommendView;
 import com.non.sleep.naver.android.src.recommend.models.WordResponse;
@@ -85,6 +87,8 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
     public static int count=0;
     public static int won=0;
     public static TextView mTvTotalPay;
+
+    private Intent intent;
 
     private void handleMessage(Message msg) {
         switch (msg.what) {
@@ -147,6 +151,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
             case R.id.recommend_ai_cancel_btn:
                 // 취소화면
             case R.id.recommend_ai_pay_iv:
+                // 결제화면
                 break;
         }
     }
@@ -426,6 +431,27 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
                     }
 
                 }
+                break;
+            case R.id.recommend_ai_cancel_btn:
+                intent = new Intent(RecommendAiActivity.this, MenuListActivitiy.class);
+//                intent.putExtra("",age);
+//                intent.putExtra("gender",gender);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.recommend_ai_pay_iv:
+//                intent = new Intent(RecommendAiActivity.this, PayActivity.class);
+//                intent.putExtra("name1", mTvName1.getText());
+//                intent.putExtra("name2", mTvName2.getText());
+//                intent.putExtra("name3", mTvName3.getText());
+//
+//                intent.putExtra("won1", mTvWon1.getText());
+//                intent.putExtra("won2", mTvWon2.getText());
+//                intent.putExtra("won3", mTvWon3.getText());
+//                startActivity(intent);
+//                finish();
                 break;
         }
     }

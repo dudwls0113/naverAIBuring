@@ -137,8 +137,11 @@ public class FaceDetectionActivity extends Activity implements FrontCameraRetrie
     }
 
     @Override
-    public void nextActivity() {
-        startActivity(new Intent(FaceDetectionActivity.this, RecommendActivity.class));
+    public void nextActivity(int age, String gender) {
+        Intent intent = new Intent(FaceDetectionActivity.this, RecommendActivity.class);
+        intent.putExtra("age",age);
+        intent.putExtra("gender",gender);
+        startActivity(intent);
         finish();
     }
 

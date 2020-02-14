@@ -13,19 +13,49 @@
         android:layout_margin="16dp"
         android:background="@drawable/bg_round"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
+
         <TextView
+            android:id="@+id/food_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="22.7sp"
+            android:text="60대 추천 메뉴"
+            android:textColor="#000000"
+            android:textSize="56.7sp"
+            android:textStyle="bold" />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32.5sp"
-            android:textColor="#000000"
-            android:lineSpacingExtra="17sp"
-            android:text="20대 추천 메뉴"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/recommend_yes_tv_age"/>
+            android:src="@drawable/img_sample" />
+
+
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:lineSpacingExtra="31.3sp"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            tools:text="돌솥 비빔밥" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_text_select"/>
 
         <View
             android:layout_width="match_parent"
@@ -33,162 +63,31 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="19dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="27.5sp"
-                    android:textColor="#000000"
-                    android:lineSpacingExtra="11sp"
-                    android:text="1위"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="33.5sp"
-                    android:textColor="#000000"
-                    android:lineSpacingExtra="13sp"
-                    tools:text="돈까스"
-                    android:id="@+id/recommend_yes_tv_first"/>
-            </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_food2"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="19dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="27.5sp"
-                    android:textColor="#000000"
-                    android:lineSpacingExtra="11sp"
-                    android:text="1위"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="33.5sp"
-                    android:textColor="#000000"
-                    android:lineSpacingExtra="13sp"
-                    tools:text="돈까스"
-                    android:id="@+id/recommend_yes_tv_second"/>
-            </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_food2"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="55dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="27.5sp"
-                    android:textColor="#000000"
-                    android:lineSpacingExtra="11sp"
-                    android:text="1위"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="33.5sp"
-                    android:textColor="#000000"
-                    android:lineSpacingExtra="13sp"
-                    tools:text="돈까스"
-                    android:id="@+id/recommend_yes_tv_third"/>
-            </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_food2"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_recommend_text"
-            android:layout_gravity="center"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="65dp"
-            android:layout_marginEnd="65dp"
-            android:layout_marginBottom="80dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="80dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_next"
-                android:id="@+id/recommend_yes_iv_next"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:src="@drawable/btn_yes" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_another_menu"
-                android:id="@+id/recommend_yes_iv_menu"/>
+                android:src="@drawable/brn_no" />
+
         </LinearLayout>
     </LinearLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/recommend_iv_speak"
-        android:src="@drawable/ic_btn_speak"
+        android:id="@+id/yes_iv_recording"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="-5dp"
-        android:layout_marginBottom="150dp" />
+        android:layout_marginBottom="100dp"
+        android:onClick="customOnClick"
+        android:src="@drawable/ic_speak" />
 </FrameLayout>

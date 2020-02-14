@@ -217,13 +217,13 @@
                     android:id="@+id/recommend_ai_cancel_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onClick"
+                    android:onClick="customOnClick"
                     android:src="@drawable/cancel_btn"/>
                 <ImageView
                     android:id="@+id/recommend_ai_pay_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onClick"
+                    android:onClick="customOnClick"
                     android:src="@drawable/pay_btn"/>
 
             </LinearLayout>

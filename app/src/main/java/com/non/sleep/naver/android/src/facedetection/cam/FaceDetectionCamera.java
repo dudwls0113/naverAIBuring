@@ -217,13 +217,23 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
                 if(jsonArray.length()>0){
                     System.out.println("성별: " + jsonArray.getJSONObject(0).getJSONObject("gender").getString("value"));
                     System.out.println("연령대: " + jsonArray.getJSONObject(0).getJSONObject("age").getString("value"));
+                    String gender = null;
+                    if (jsonArray.getJSONObject(0).getJSONObject("gender").getString("value").equals("female")){
+                        gender = "F";
+                    }
+                    else if(jsonArray.getJSONObject(0).getJSONObject("gender").getString("value").equals("male")){
+                        gender = "M";
+                    }
+                    else{
+                        gender = "C";
+                    }
                     String age = jsonArray.getJSONObject(0).getJSONObject("age").getString("value");
                     age = age.substring(0,age.indexOf('~'));
                     int ageInt = Integer.parseInt(age);
                     ageInt = ageInt-ageInt%10;
                     System.out.println("나이 인트값: " + ageInt);
                     System.out.println("기분: " + jsonArray.getJSONObject(0).getJSONObject("emotion").getString("value"));
-                    listener.nextActivity();
+                    listener.nextActivity(ageInt, gender);
                 }
                 else{
                     listener.otherNextActivity();
@@ -264,7 +274,7 @@ public class FaceDetectionCamera implements OneShotFaceDetectionListener.Listene
 
         void onFaceDetectionNonRecoverableError();
 
-        void nextActivity();
+        void nextActivity(int age, String gender);
 
         void otherNextActivity();
 
