@@ -281,7 +281,7 @@ public class RecommendActivity extends BaseActivity implements RecommendView {
             mediaPlayer.prepare();
             mediaPlayer.start();
             while (mediaPlayer.isPlaying()) {
-                Log.d("로그", "루프");
+//                Log.d("로그", "루프");
             }
             inputStream.close();
             isCPVEnd = true;

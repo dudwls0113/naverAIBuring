@@ -411,7 +411,7 @@ public class RecommendAiActivity extends BaseActivity implements RecommendAiView
                 mediaPlayer.prepare();
                 mediaPlayer.start();
                 while (mediaPlayer.isPlaying()){
-                    Log.d("로그", "루프");
+//                    Log.d("로그", "루프");
                 }
                 is.close();
                 System.out.println("성공6");

@@ -13,6 +13,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.naver.speech.clientapi.SpeechRecognitionResult;
@@ -57,6 +59,8 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
     private NaverRecognizer naverRecognizer;
     private String mResult;
     private AudioWriterPCM writer;
+    private LinearLayout mLinearMenu1, mLinearMenu2, mLinearMenu3;
+    private TextView mTextViewMenu1, mTextViewMenu2, mTextViewMenu3;
 
     private boolean isCPVEnd = false;
 
@@ -182,6 +186,31 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
 
     void init() {
         mImageViewRecording = findViewById(R.id.activity_main_iv_recording);
+        mLinearMenu1 = findViewById(R.id.linear_menu_1);
+        mLinearMenu2 = findViewById(R.id.linear_menu_2);
+        mLinearMenu3 = findViewById(R.id.linear_menu_3);
+
+        mTextViewMenu1 = findViewById(R.id.tv_menu1);
+        mTextViewMenu2 = findViewById(R.id.tv_menu2);
+        mTextViewMenu3 = findViewById(R.id.tv_menu3);
+
+        for (int i = 0; i < arrayListSelectedMenu.size(); i++) {
+            if (i == 0) {
+                mLinearMenu1.setVisibility(View.VISIBLE);
+                mTextViewMenu1.setText(arrayListSelectedMenu.get(i).getName());
+//                mTextViewMenu1.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+            } else if (i == 1) {
+                mLinearMenu2.setVisibility(View.VISIBLE);
+                mTextViewMenu2.setText(arrayListSelectedMenu.get(i).getName());
+//                mTextViewMenu2.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+            } else {
+                mLinearMenu3.setVisibility(View.VISIBLE);
+                mTextViewMenu2.setText(arrayListSelectedMenu.get(i).getName());
+//                mTextViewMenu2.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+            }
+
+        }
+
     }
 
     void postWord(String word) {
@@ -222,7 +251,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
         hideProgressDialog();
         System.out.println("리스폰스 코드: 4");
         Intent intent = new Intent(MenuListActivitiy.this, RecommendAiActivity.class);
-        intent.putExtra("type",word);
+        intent.putExtra("type", word);
         startActivity(intent);
         finish();
     }
@@ -298,7 +327,7 @@ public class MenuListActivitiy extends BaseActivity implements MenuListView {
                 mediaPlayer.prepare();
                 mediaPlayer.start();
                 while (mediaPlayer.isPlaying()) {
-                    Log.d("로그", "루프");
+//                    Log.d("로그", "루프");
                 }
                 is.close();
                 System.out.println("성공6");

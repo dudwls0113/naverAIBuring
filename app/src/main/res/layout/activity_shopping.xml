@@ -24,13 +24,15 @@
 
 
         <LinearLayout
+            android:id="@+id/linear_menu_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/bg_gray"
             android:orientation="horizontal"
-            android:padding="33dp">
+            android:padding="33dp"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/shop_tv_menu1"
@@ -53,13 +55,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_menu_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/bg_gray"
             android:orientation="horizontal"
-            android:padding="30dp">
+            android:padding="30dp"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/shop_tv_menu2"
@@ -82,14 +86,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_menu_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="30dp"
-
             android:background="@drawable/bg_gray"
             android:orientation="horizontal"
-            android:padding="30dp">
+            android:padding="30dp"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/shop_tv_menu3"

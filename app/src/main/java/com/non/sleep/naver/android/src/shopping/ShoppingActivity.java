@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.non.sleep.naver.android.src.ApplicationClass.arrayListSelectedMenu;
+
 public class ShoppingActivity extends BaseActivity implements MenuListView {
     private TextView mTvName1, mTvName2, mTvName3, mTvWon1, mTvWon2, mTvWon3;
 
@@ -56,6 +59,8 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
     private NaverRecognizer naverRecognizer;
     private String mResult;
     private AudioWriterPCM writer;
+
+    private LinearLayout mLinearMenu1, mLinearMenu2, mLinearMenu3;
 
     private boolean isCPVEnd = false;
 
@@ -143,6 +148,28 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
         mTvWon2 = findViewById(R.id.shop_tv_price2);
         mTvWon3 = findViewById(R.id.shop_tv_price3);
 
+        mLinearMenu1 = findViewById(R.id.linear_menu_1);
+        mLinearMenu2 = findViewById(R.id.linear_menu_2);
+        mLinearMenu3 = findViewById(R.id.linear_menu_3);
+
+        for (int i = 0; i < arrayListSelectedMenu.size(); i++) {
+            if (i == 0) {
+                mLinearMenu1.setVisibility(View.VISIBLE);
+                mTvName1.setText(arrayListSelectedMenu.get(i).getName());
+                mTvWon1.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+            } else if (i == 1) {
+                mLinearMenu2.setVisibility(View.VISIBLE);
+                mTvName2.setText(arrayListSelectedMenu.get(i).getName());
+                mTvWon2.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+            } else {
+                mLinearMenu3.setVisibility(View.VISIBLE);
+                mTvName3.setText(arrayListSelectedMenu.get(i).getName());
+                mTvWon3.setText(arrayListSelectedMenu.get(i).getPrice() + "원");
+            }
+
+        }
+
+
         mImageViewRecording = findViewById(R.id.activity_main_iv_recording);
 
         if (name1 != null && name1 != "") {
@@ -226,7 +253,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
     @Override
     public void postWordPositiveSuccess() {
         hideProgressDialog();
-        Intent intent = new Intent(this, PayActivity.class);
+        Intent intent = new Intent(this, MenuListActivitiy.class);
         startActivity(intent);
         System.out.println("리스폰스 코드: 1");
     }
@@ -234,8 +261,10 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
     @Override
     public void postWordNegativeSuccess() {
         hideProgressDialog();
-        Intent intent = new Intent(this, MenuListActivitiy.class);
+
+        Intent intent = new Intent(this, PayActivity.class);
         startActivity(intent);
+
         System.out.println("리스폰스 코드: 2");
     }
 
@@ -357,7 +386,7 @@ public class ShoppingActivity extends BaseActivity implements MenuListView {
                 mediaPlayer.prepare();
                 mediaPlayer.start();
                 while (mediaPlayer.isPlaying()) {
-                    Log.d("로그", "루프");
+//                    Log.d("로그", "루프");
                 }
                 is.close();
                 System.out.println("성공6");
